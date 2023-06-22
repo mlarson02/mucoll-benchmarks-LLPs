@@ -8,12 +8,12 @@
   <execute>
 
     <!-- ========== Setup ========== -->
-    <processor name="InitAIDA"/>
+    <processor name="AIDA"/>
     <processor name="EventNumber" />
     <processor name="Config" />
 
     <!-- ========== DD4hep.xml ========== -->
-    <processor name="InitDD4hep"/>
+    <processor name="DD4hep"/>
 
     <!-- ========== TrackerDigitisation.xml ========== -->
     <processor name="VXDBarrelDigitiser"/>
@@ -26,7 +26,6 @@
     <!-- ========== CaloDigitisation.xml ============ -->
     <processor name="DDCaloDigi"/>
     <processor name="DDSimpleMuonDigi"/>
-    <processor name="DDMarlinPandora"/>
 
     <!-- ========== Output ========== -->
     <processor name="LCIOWriter_all"/>
@@ -66,7 +65,7 @@
     <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   </processor>
 
-  <processor name="InitAIDA" type="AIDAProcessor">
+  <processor name="AIDA" type="AIDAProcessor">
     <!-- Processor that handles AIDA output files
     Creates a directory per processor with its output objects: histograms, trees.
     Must be the first ActiveProcessor -->
