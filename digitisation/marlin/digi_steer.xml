@@ -15,6 +15,20 @@
     <!-- ========== DD4hep.xml ========== -->
     <processor name="DD4hep"/>
 
+    <!-- ========== Overlay.xml  ========== -->
+    <if condition="Config.OverlayNone">
+      <processor name="OverlayNone"/>
+    </if>
+    <if condition="Config.OverlayTest">
+      <processor name="OverlayTest"/>
+    </if>
+    <if condition="Config.OverlayTrimmed">
+      <processor name="OverlayTrimmed"/>
+    </if>
+    <if condition="Config.OverlayFull">
+      <processor name="OverlayFull"/>
+    </if>
+
     <!-- ========== TrackerDigitisation.xml ========== -->
     <processor name="VXDBarrelDigitiser"/>
     <processor name="VXDEndcapDigitiser"/>
@@ -49,6 +63,8 @@
   <include ref="subconfigs/DD4hep.xml"/>
   <include ref="subconfigs/TrackerDigitisation.xml"/>
   <include ref="subconfigs/CaloDigitisation.xml"/>
+  <include ref="subconfigs/MuonDigitisation.xml"/>
+  <include ref="subconfigs/VertexDoubleLayerFiltering.xml"/>
 
 
   <!-- Defining other processors directly in the steering file -->
@@ -57,7 +73,7 @@
     <!--Which option to use for Overlay: False, BIB. Then use, e.g., Config.OverlayFalse in the condition-->
     <parameter name="Overlay" type="string">False</parameter>
     <!--Possible values and conditions for option Overlay-->
-    <parameter name="OverlayChoices" type="StringVec">False Test BIB Trimmed</parameter>
+    <parameter name="OverlayChoices" type="StringVec">False None Test Trimmed Full</parameter>
     <!--Which option to use for VertexUnconstrained: ON, OFF. Then use, e.g., Config.VertexUnconstrainedOFF in the condition-->
     <parameter name="VertexUnconstrained" type="string">OFF </parameter>
     <!--Possible values and conditions for option Tracking-->

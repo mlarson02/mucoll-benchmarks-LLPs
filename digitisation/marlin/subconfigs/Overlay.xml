@@ -20,11 +20,11 @@
 
     ECalBarrelCollection -0.25 10.
     ECalEndcapCollection -0.25 10.
-    ECalPlugCollection -0.25 10.
+    ECalPlugCollection   -0.25 10.
 
     HCalBarrelCollection -0.25 10.
     HCalEndcapCollection -0.25 10.
-    HCalRingCollection -0.25 10.
+    HCalRingCollection   -0.25 10.
 
     YokeBarrelCollection -0.25 10.
     YokeEndcapCollection -0.25 10.
@@ -40,13 +40,13 @@
   <parameter name="TPCDriftvelocity" type="float" value="0.05"/>
   <parameter name="BackgroundFileNames" type="StringVec"> </parameter>
 
-  <processor name="OverlayFalse" type="OverlayTimingGeneric">
+  <processor name="OverlayNone" type="OverlayTimingGeneric">
     <parameter name="BackgroundFileNames" type="StringVec"> /dev/null</parameter>
     <parameter name="NBunchtrain" type="int" value="0"/>
     <parameter name="NumberBackground" type="float" value="0."/>
   </processor>
 
-  <processor name="OverlayBIB" type="OverlayTimingGeneric">
+  <processor name="OverlayFull" type="OverlayTimingGeneric">
     <parameter name="BackgroundFileNames" type="StringVec">
       /data/samples/MuCollv1_25ns_nEkin150MeV_QGSPBERT_merged/sim-1e3x500-26m-lowth-excl_c00.slcio
       /data/samples/MuCollv1_25ns_nEkin150MeV_QGSPBERT_merged/sim-1e3x500-26m-lowth-excl_c01.slcio
@@ -63,7 +63,7 @@
 
   <processor name="OverlayTrimmed" type="OverlayTimingGeneric">
     <parameter name="BackgroundFileNames" type="StringVec">
-      ./sim-1e3x500-26m-lowth-excl_c00_trimmed.slcio
+      bib_trimmed.slcio
     </parameter>
     <parameter name="StartBackgroundFileIndex" type="int" value="0"/>
     <parameter name="AllowReusingBackgroundFiles" type="bool" value="false" />
