@@ -1,5 +1,4 @@
-
-<!-- PlanarDigiProcessor creates TrackerHits from SimTrackerHits, smearing them according to the input parameters -->
+<!-- DDPlanarDigiProcessor creates TrackerHits from SimTrackerHits, smearing them according to the input parameters -->
 <processor name="VXDBarrelDigitiser" type="DDPlanarDigiProcessor">
   <parameter name="SubDetectorName" type="string"> Vertex </parameter>
   <!--whether hits are 1D strip hits-->

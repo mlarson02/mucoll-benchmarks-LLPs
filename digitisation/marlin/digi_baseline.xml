@@ -24,8 +24,8 @@
     <processor name="OTEndcapDigitiser"/>
 
     <!-- ========== CaloDigitisation.xml ============ -->
-    <processor name="DDCaloDigi"/>
-    <processor name="DDSimpleMuonDigi"/>
+    <processor name="CaloDigitiser"/>
+    <processor name="MuonDigitiser"/>
 
     <!-- ========== Output ========== -->
     <processor name="LCIOWriter_all"/>
@@ -84,7 +84,7 @@
 
   <!-- LCIO output: keep all collections -->
   <processor name="LCIOWriter_all" type="LCIOOutputProcessor">
-    <parameter name="LCIOOutputFile" type="string"> out_digi_all.slcio </parameter>
+    <parameter name="LCIOOutputFile" type="string"> out_digi.slcio </parameter>
     <parameter name="FullSubsetCollections" type="StringVec">  </parameter>
     <parameter name="DropCollectionTypes" type="StringVec">  </parameter>
     <parameter name="DropCollectionNames" type="StringVec">  </parameter>
