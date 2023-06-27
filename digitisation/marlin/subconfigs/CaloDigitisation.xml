@@ -5,7 +5,7 @@
   <parameter name="Histograms" type="int">0 </parameter>
   <parameter name="RootFile" type="string">digi_calo.root</parameter>
   <!--CaloHit Relation Collection-->
-  <parameter name="RelationOutputCollection" type="string" lcioOutType="LCRelation">RelationCaloHit </parameter>
+  <parameter name="RelationOutputCollection" type="string" lcioOutType="LCRelation">CaloHitsRelations </parameter>
   <!--energy required to create e-h pair in silicon (in eV)-->
   <parameter name="energyPerEHpair" type="float">3.6 </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
@@ -16,11 +16,11 @@
   <!--ECAL Collection Names-->
   <parameter name="ECALCollections" type="StringVec" lcioInType="SimCalorimeterHit">ECalBarrelCollection ECalEndcapCollection ECalPlugCollection </parameter>
   <!--ECAL Collection of real Hits-->
-  <parameter name="ECALOutputCollection0" type="string" lcioOutType="CalorimeterHit">ECALBarrel </parameter>
+  <parameter name="ECALOutputCollection0" type="string" lcioOutType="CalorimeterHit">ECALBarrelHits </parameter>
   <!--ECAL Collection of real Hits-->
-  <parameter name="ECALOutputCollection1" type="string" lcioOutType="CalorimeterHit">ECALEndcap </parameter>
+  <parameter name="ECALOutputCollection1" type="string" lcioOutType="CalorimeterHit">ECALEndcapHits </parameter>
   <!--ECAL Collection of real Hits-->
-  <parameter name="ECALOutputCollection2" type="string" lcioOutType="CalorimeterHit">ECALOther </parameter>
+  <parameter name="ECALOutputCollection2" type="string" lcioOutType="CalorimeterHit">ECALOtherHits </parameter>
   <!--Digital Ecal-->
   <parameter name="IfDigitalEcal" type="int">0 </parameter>
   <!--Index of ECal Layers-->
@@ -97,11 +97,11 @@
   <!--HCAL Collection Names-->
   <parameter name="HCALCollections" type="StringVec" lcioInType="SimCalorimeterHit">HCalBarrelCollection HCalEndcapCollection HCalRingCollection </parameter>
   <!--HCAL Collection of real Hits-->
-  <parameter name="HCALOutputCollection0" type="string" lcioOutType="CalorimeterHit">HCALBarrel </parameter>
+  <parameter name="HCALOutputCollection0" type="string" lcioOutType="CalorimeterHit">HCALBarrelHits </parameter>
   <!--HCAL Collection of real Hits-->
-  <parameter name="HCALOutputCollection1" type="string" lcioOutType="CalorimeterHit">HCALEndcap </parameter>
+  <parameter name="HCALOutputCollection1" type="string" lcioOutType="CalorimeterHit">HCALEndcapHits </parameter>
   <!--HCAL Collection of real Hits-->
-  <parameter name="HCALOutputCollection2" type="string" lcioOutType="CalorimeterHit">HCALOther </parameter>
+  <parameter name="HCALOutputCollection2" type="string" lcioOutType="CalorimeterHit">HCALOtherHits </parameter>
   <!--Digital Hcal-->
   <parameter name="IfDigitalHcal" type="int">0 </parameter>
   <!--Index of HCal Layers-->
