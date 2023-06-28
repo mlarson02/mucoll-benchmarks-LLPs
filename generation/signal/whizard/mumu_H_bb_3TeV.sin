@@ -63,7 +63,7 @@ $hadronization_method = "PYTHIA8"
 # Compute Cross Section for Hbb
 integrate (hbb)
 # Specify H can decay
-unstable H (hbb)
+unstable H (hbb){ ?auto_decays = true }
 # Simulate the full process
 integrate (hdec){  iterations = 20:8000000:"gw", 5:20000000 }
 show(results)
