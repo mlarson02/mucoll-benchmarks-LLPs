@@ -6,8 +6,7 @@ from g4units import mm, GeV, MeV, m, deg
 SIM = DD4hepSimulation()
 
 ## Path to the compact geometry desciption [XML file]
-geometry_path = os.path.join(os.environ.get('lcgeo_DIR/'), 'MuColl_v1/MuColl_v1.xml')
-SIM.compactFile = geometry_path
+SIM.compactFile = os.environ.get('MUCOLL_GEO')
 ## Lorentz boost for the crossing angle, in radian!
 SIM.crossingAngleBoost = 0.0
 SIM.enableDetailedShowerMode = True
@@ -15,7 +14,7 @@ SIM.enableG4GPS = False
 SIM.enableG4Gun = False
 SIM.enableGun = False
 ## InputFiles for simulation .stdhep, .slcio, .HEPEvt, .hepevt, .hepmc files are supported
-SIM.inputFiles = ["/data/samples/HH/mumu2H2bb750.stdhep"]
+SIM.inputFiles = ["input.stdhep"]
 ## Macro file to execute for runType 'run' or 'vis'
 SIM.macroFile = ""
 ## number of events to simulate, used in batch mode. -1 all
