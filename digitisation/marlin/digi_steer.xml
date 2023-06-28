@@ -44,6 +44,7 @@
 
     <!-- ========== CaloDigitisation.xml ============ -->
     <processor name="CaloDigitiser"/>
+    <!-- ========== MuonDigitisation.xml ============ -->
     <processor name="MuonDigitiser"/>
 
     <!-- ========== Output ========== -->
