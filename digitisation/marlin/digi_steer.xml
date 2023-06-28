@@ -67,6 +67,7 @@
 
   <!-- Including processor definitions from external files -->
   <include ref="subconfigs/DD4hep.xml"/>
+  <include ref="subconfigs/Overlay.xml"/>
   <include ref="subconfigs/TrackerDigitisation.xml"/>
   <include ref="subconfigs/CaloDigitisation.xml"/>
   <include ref="subconfigs/MuonDigitisation.xml"/>
