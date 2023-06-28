@@ -1,10 +1,10 @@
 # Reconstruction of simulated file
 
 ```
-Marlin steer_reco_Hbb.xml > reco.log 2>&1
+Marlin digi_steer.xml > digi.log 2>&1
 ```
 
 It produces several outputs:
-- `Output_REC.slcio` (all collections) 
-- `Output_DST.slcio` (subset of collections)
-- `histograms.root` (monitoring histograms)
+- `out_digi.slcio` (all collections) 
+- `out_digi_light.slcio` (subset of collections for analysis)
+- `out_processors.root` (monitoring histograms of Marlin processors)

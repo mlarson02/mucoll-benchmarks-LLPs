@@ -139,26 +139,26 @@ SIM.gun.direction = (0, 0, 1)
 ## 
 ##     Setting a distribution will set isotrop = True
 ##     
-SIM.gun.distribution = None
-SIM.gun.energy = 10000.0
+SIM.gun.distribution = 'uniform'
+SIM.gun.energy = 10.0*GeV
 
 ##  isotropic distribution for the particle gun
 ## 
 ##     use the options phiMin, phiMax, thetaMin, and thetaMax to limit the range of randomly distributed directions
 ##     if one of these options is not None the random distribution will be set to True and cannot be turned off!
 ##     
-SIM.gun.isotrop = False
+SIM.gun.isotrop = True
 SIM.gun.multiplicity = 1
 SIM.gun.particle = "mu-"
+## polar-angle range for random distribution
+SIM.gun.thetaMax = 170*deg
+SIM.gun.thetaMin = 10*deg
+## azimuthal-angle range for random distribution
 SIM.gun.phiMax = None
-
-## Minimal azimuthal angle for random distribution
 SIM.gun.phiMin = None
 
 ##  position of the particle gun, 3 vector 
 SIM.gun.position = (0.0, 0.0, 0.0)
-SIM.gun.thetaMax = None
-SIM.gun.thetaMin = None
 
 
 ################################################################################
