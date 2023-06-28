@@ -84,8 +84,6 @@ frame = podio.Frame()
 frame.putParameter('pdgIds', str(args.pdg))
 frame.putParameter('events', args.events)
 frame.putParameter('particles/event', args.particles)
-
-
 if args.comment:
 	frame.putParameter('comment', args.comment)
 for name, values in configs.items():
@@ -142,11 +140,11 @@ for e in range(args.events):
 		# Adding particle to the event
 		n_particles += 1
 	# Writing the event
-	frame.put(cppyy.gbl.std.move(col), "MCParticles")
-	writer.writeFrame(frame, 'events')
 	n_events += 1
 	if n_events % (args.events / 10) == 0:
 		print(f'Wrote event {n_events}/{args.events}')
+	evt.put(cppyy.gbl.std.move(col), "MCParticles")	
+	writer.writeFrame(evt, 'events')
 # Closing the output file
 writer.finish()
 print(f'Wrote {n_particles} partiles in {n_events} events to file: {args.output}')
