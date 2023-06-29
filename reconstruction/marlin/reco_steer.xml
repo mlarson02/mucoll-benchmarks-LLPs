@@ -46,8 +46,9 @@
 
   <!-- Including processor definitions from external files -->
   <include ref="subconfigs/DD4hep.xml"/>
-  <include ref="subconfigs/TrackerDigitisation.xml"/>
-  <include ref="subconfigs/CaloDigitisation.xml"/>
+  <include ref="subconfigs/TrackReconstruction.xml"/>
+  <include ref="subconfigs/PFOReconstruction.xml"/>
+  <include ref="subconfigs/PFOSelection.xml"/>
 
 
   <!-- Defining other processors directly in the steering file -->
