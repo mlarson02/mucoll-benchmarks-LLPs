@@ -123,11 +123,13 @@
     <parameter name="FullSubsetCollections" type="StringVec"> </parameter>
     <!-- Removing SimHits, MCParticles and all the relation info -->
     <parameter name="DropCollectionTypes" type="StringVec">
-      MCParticle
       SimTrackerHit
+      SimCalorimeterHit
       LCRelation
     </parameter>
-    <parameter name="DropCollectionNames" type="StringVec">  </parameter>
+    <parameter name="DropCollectionNames" type="StringVec">
+      MCParticle
+    </parameter>
     <parameter name="KeepCollectionNames" type="StringVec">  </parameter>
     <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>
     <parameter name="Verbosity" type="string">WARNING </parameter>
