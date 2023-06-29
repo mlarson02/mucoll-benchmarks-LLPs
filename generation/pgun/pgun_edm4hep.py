@@ -90,6 +90,7 @@ for name, values in configs.items():
 	header = str(values) if isinstance(values, list) else values
 	frame.putParameter(name, header)
 # wrt.writeRunHeader(run)
+writer.writeFrame(frame, 'header')
 
 # Setting counters
 n_events = 0
