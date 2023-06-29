@@ -90,7 +90,7 @@
     <parameter name="AllowReusingBackgroundFiles" type="bool" value="false" />
     <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">WARNING </parameter>
     <parameter name="NBunchtrain" type="int" value="1" />
-    <parameter name="NumberBackground" type="float" value="108" />
+    <parameter name="NumberBackground" type="float" value="-1" />
   </processor>
 
 </group>
