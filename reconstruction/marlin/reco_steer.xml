@@ -72,7 +72,7 @@
     <!-- compression of output file 0: false >0: true (default) -->
     <parameter name="Compress" type="int" value="1"/>
     <!-- filename (without extension) -->
-    <parameter name="FileName" type="string" value="out_processors"/>
+    <parameter name="FileName" type="string" value="output_reco"/>
     <!-- type of output file xml (default) or root ( only OpenScientist) -->
     <parameter name="FileType" type="string" value="root "/>
   </processor>
