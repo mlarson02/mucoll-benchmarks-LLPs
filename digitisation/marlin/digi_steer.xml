@@ -95,7 +95,7 @@
     <!-- compression of output file 0: false >0: true (default) -->
     <parameter name="Compress" type="int" value="1"/>
     <!-- filename (without extension) -->
-    <parameter name="FileName" type="string" value="out_processors"/>
+    <parameter name="FileName" type="string" value="output_digi"/>
     <!-- type of output file xml (default) or root ( only OpenScientist) -->
     <parameter name="FileType" type="string" value="root "/>
   </processor>
@@ -107,7 +107,7 @@
 
   <!-- LCIO output: keep all collections -->
   <processor name="LCIOWriter_all" type="LCIOOutputProcessor">
-    <parameter name="LCIOOutputFile" type="string"> out.slcio </parameter>
+    <parameter name="LCIOOutputFile" type="string"> output_digi.slcio </parameter>
     <parameter name="FullSubsetCollections" type="StringVec">  </parameter>
     <parameter name="DropCollectionTypes" type="StringVec">  </parameter>
     <parameter name="DropCollectionNames" type="StringVec">  </parameter>
@@ -119,7 +119,7 @@
 
   <!-- LCIO output: keep only collections relevant for analysis -->
   <processor name="LCIOWriter_light" type="LCIOOutputProcessor">
-    <parameter name="LCIOOutputFile" type="string"> out_light.slcio </parameter>
+    <parameter name="LCIOOutputFile" type="string"> output_digi_light.slcio </parameter>
     <parameter name="FullSubsetCollections" type="StringVec"> </parameter>
     <!-- Removing SimHits, MCParticles and all the relation info -->
     <parameter name="DropCollectionTypes" type="StringVec">
