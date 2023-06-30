@@ -82,13 +82,13 @@ print(f'Opening output file: {args.output}')
 # Writing the run headers
 frame = podio.Frame()
 frame.putParameter('pdgIds', str(args.pdg))
-frame.putParameter('events', args.events)
-frame.putParameter('particles/event', args.particles)
+frame.putParameter('events', str(args.events))
+frame.putParameter('particles/event', str(args.particles))
 if args.comment:
 	frame.putParameter('comment', args.comment)
 for name, values in configs.items():
 	header = str(values) if isinstance(values, list) else values
-	frame.putParameter(name, header)
+	frame.putParameter(name, str(header))
 # wrt.writeRunHeader(run)
 writer.writeFrame(frame, 'header')
 
@@ -103,7 +103,7 @@ choose_random_pdg = True if args.particles != n_pdgs else False
 for e in range(args.events):
 	col = edm4hep.MCParticleCollection()
 	evt = podio.Frame()
-	evt.putParameter("eventNumber", e)
+	evt.putParameter("eventNumber", str(e))
 
 	for p in range(args.particles):
 		pdg_idx = p
