@@ -21,7 +21,7 @@
     <processor name="TrackRefit"/>
 
     <!-- =============== PFOReconstruction.xml ================= -->
-    <group name="DDMarlinPandora" />
+    <processor name="DDMarlinPandora" />
 
     <!-- =============== PFOSelection.xml ================= -->
     <group name="PFOSelection" />
