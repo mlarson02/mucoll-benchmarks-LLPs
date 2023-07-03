@@ -24,7 +24,7 @@
     <processor name="DDMarlinPandora" />
 
     <!-- =============== PFOSelection.xml ================= -->
-    <group name="PFOSelection" />
+    <processor name="PFOSelection" />
 
     <!-- =============== VertexJet.xml ================ -->
     <processor name="FastJetProcessor" />
