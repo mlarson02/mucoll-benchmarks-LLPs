@@ -100,13 +100,19 @@
     <parameter name="FullSubsetCollections" type="StringVec"> </parameter>
     <!-- Removing SimHits, MCParticles and all the relation info -->
     <parameter name="DropCollectionTypes" type="StringVec">
+      SimCalorimeterHit
+      CalorimeterHit
+      SimTrackerHit
       TrackerHitPlane
+      Track
+      LCRelation
     </parameter>
     <parameter name="DropCollectionNames" type="StringVec">  </parameter>
     <parameter name="KeepCollectionNames" type="StringVec">
       SiTracks_Refitted
       SiTracks_Refitted_Relations
       PandoraPFOs
+      MCPhysicsParticle
     </parameter>
     <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>
     <parameter name="Verbosity" type="string">WARNING </parameter>

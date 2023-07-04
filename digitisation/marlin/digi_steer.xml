@@ -129,6 +129,7 @@
     </parameter>
     <parameter name="DropCollectionNames" type="StringVec">
       MCParticle
+      MCPhysicsParticle
     </parameter>
     <parameter name="KeepCollectionNames" type="StringVec">  </parameter>
     <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>

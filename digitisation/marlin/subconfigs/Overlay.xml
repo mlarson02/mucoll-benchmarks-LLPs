@@ -1,7 +1,7 @@
 <group name="Overlay">
   <parameter name="MCParticleCollectionName" type="string">MCParticle </parameter>
   <!--The output MC Particle Collection Name for the physics event-->
-  <parameter name="MCPhysicsParticleCollectionName" type="string"> MCPhysicsParticles </parameter>
+  <parameter name="MCPhysicsParticleCollectionName" type="string"> MCPhysicsParticle </parameter>
   <!--Time difference between bunches in the bunch train in ns-->
   <parameter name="Delta_t" type="float" value="1"/>
   <!--Number of bunches in a bunch train-->
