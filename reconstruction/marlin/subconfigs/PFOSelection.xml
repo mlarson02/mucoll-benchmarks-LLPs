@@ -1,5 +1,5 @@
 <!--Selects PFOs from full PFO list using timing cuts-->
-<group name="PFOSelection" type="CLICPfoSelector">
+<processor name="PFOSelection" type="CLICPfoSelector">
   <!--ChargedPfoLooseTimingCut-->
   <parameter name="ChargedPfoLooseTimingCut" type="float">3 </parameter>
   <!--ChargedPfoNegativeLooseTimingCut-->
@@ -93,5 +93,5 @@
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <parameter name="Verbosity" type="string">MESSAGE </parameter>
 
-</group>
+</processor>
 
