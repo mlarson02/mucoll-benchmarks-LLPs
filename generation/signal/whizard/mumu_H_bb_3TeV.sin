@@ -7,9 +7,8 @@
 #
 model = SM
 #Set widths and masses
-ms     = 0
-mc     = 0
-mb     = 0
+me     = 0d0
+mmu    = 0d0
 mtop   = 174 GeV
 wtop   = 1.37 GeV
 mW     = 80.45 GeV
@@ -28,11 +27,6 @@ alias qbar   = B
 sqrts = 3 TeV
 seed = 1889
 
-#  resonance history
-?resonance_history         = true
-resonance_on_shell_limit   = 16
-resonance_on_shell_turnoff = 8
-
 #Higgs production
 process hdec = "e2", "E2" => "H", NNU, ANU 
 #Higgs decay
@@ -43,13 +37,7 @@ process hbb = "H" => q, qbar
 compile
 
 #Define cuts
-real default_M_cut = 4 GeV
-real default_jet_cut = 10 GeV
-real default_Q_cut = 4 GeV
-alias quarks = u:d:s:c:b:U:D:S:C:B
-alias lepton = e2:E2:e3:E3
-#
-cuts = all M > default_jet_cut [quarks,quarks]
+cuts = all M > 150 GeV [NNU, ANU]
 
 #Parton shower and hadronization done with Pythia8 
 ?ps_fsr_active = true
@@ -63,16 +51,16 @@ $hadronization_method = "PYTHIA8"
 # Compute Cross Section for Hbb
 integrate (hbb)
 # Specify H can decay
-unstable H (hbb){ ?auto_decays = true }
+unstable "H" (hbb)
 # Simulate the full process
 integrate (hdec){  iterations = 20:8000000:"gw", 5:20000000 }
 show(results)
 
 #Generate events sample
 simulate (hdec){
-n_events=10000
+n_events=1000
 
-$sample = "HH_bb_events"
+$sample = "mumu_H_bb_3TeV"
 sample_format = hepmc
 }
 
