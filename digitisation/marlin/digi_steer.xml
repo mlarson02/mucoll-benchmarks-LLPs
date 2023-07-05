@@ -28,11 +28,6 @@
     <if condition="Config.OverlayFull">
       <processor name="OverlayFull"/>
     </if>
-    <!-- Including double-layer filtering if any Overlay is applied -->
-    <if condition="Config.OverlayNotFalse">
-      <processor name="FilterDL_VXDB"/>
-      <processor name="FilterDL_VXDE"/>
-    </if>
 
     <!-- ========== TrackerDigitisation.xml ========== -->
     <processor name="VXDBarrelDigitiser"/>
@@ -41,6 +36,13 @@
     <processor name="ITEndcapDigitiser"/>
     <processor name="OTBarrelDigitiser"/>
     <processor name="OTEndcapDigitiser"/>
+
+    <!-- Including double-layer filtering if any Overlay is applied -->
+    <!-- ========== VertexDoubleLayerFiltering.xml ========== -->
+    <if condition="Config.OverlayNotFalse">
+      <processor name="FilterDL_VXDB"/>
+      <processor name="FilterDL_VXDE"/>
+    </if>
 
     <!-- ========== CaloDigitisation.xml ============ -->
     <processor name="CaloDigitiser"/>
