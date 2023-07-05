@@ -81,7 +81,7 @@
       /cvmfs/muoncollider.cern.ch/datasets/bib/MuColl_v1/example/mupl.003.slcio
       /cvmfs/muoncollider.cern.ch/datasets/bib/MuColl_v1/example/mupl.004.slcio
     </parameter>
-    <parameter name="NumberBackground" type="float" value="-1" />
+    <parameter name="NumberBackground" type="float" value="100" />
   </processor>
 
 </group>
