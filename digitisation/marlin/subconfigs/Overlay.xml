@@ -7,7 +7,7 @@
   <!--Number of bunches in a bunch train-->
   <parameter name="NBunchtrain" type="int" value="1"/>
   <parameter name="MergeMCParticles" type="bool" value="false"/> 
-  <parameter name="AllowReusingBackgroundFiles" type="bool" value="false" />
+  <parameter name="AllowReusingBackgroundFiles" type="bool" value="true"/>
   <parameter name="StartBackgroundFileIndex" type="int" value="0"/>
   <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT">WARNING </parameter>
 
@@ -59,6 +59,7 @@
       /eos/experiment/muoncollider/data/BIB/MuCollv1_25ns_nEkin150MeV_QGSPBERT/sim_mumu-1e3x500-26m-lowth-excl_seed0005_allHits.slcio
     </parameter>
     <parameter name="NumberBackground" type="float" value="1" />
+    <parameter name="StartBackgroundFileIndex" type="int" value="-1"/>
   </processor>
 
   <processor name="OverlayTrimmed" type="OverlayTimingGeneric">
