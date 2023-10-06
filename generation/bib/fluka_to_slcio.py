@@ -10,11 +10,11 @@ parser = argparse.ArgumentParser(description='Convert FLUKA binary file to SLCIO
 parser.add_argument('files_in', metavar='FILE_IN', help='Input binary FLUKA file(s)', nargs='+')
 parser.add_argument('file_out', metavar='FILE_OUT.slcio', help='Output SLCIO file')
 parser.add_argument('-c', '--comment', metavar='TEXT',  help='Comment to be added to the header', type=str)
-parser.add_argument('-b', '--bx_time', metavar='TIME',  help='Time of the bunch crossing [s]', type=float, default=0.0)
 parser.add_argument('-n', '--normalization', metavar='N',  help='Normalization of the generated sample', type=float, default=1.0)
 parser.add_argument('-f', '--files_event', metavar='L',  help='Number of files to merge into a single LCIO event (default: 1)', type=int, default=1)
 parser.add_argument('-m', '--max_lines', metavar='M',  help='Maximum number of lines to process', type=int, default=None)
 parser.add_argument('-o', '--overwrite',  help='Overwrite existing output file', action='store_true', default=False)
+parser.add_argument('-z', '--invert_z',  help='Invert Z position/momentum', action='store_true', default=False)
 parser.add_argument('--pdgs', metavar='ID',  help='PDG IDs of particles to be included', type=int, default=None, nargs='+')
 parser.add_argument('--nopdgs', metavar='ID',  help='PDG IDs of particles to be excluded', type=int, default=None, nargs='+')
 parser.add_argument('--ne_min', metavar='E',  help='Minimum energy of accepted neutrons [GeV]', type=float, default=None)
@@ -55,8 +55,7 @@ line_dt=np.dtype([
 	('cx', np.float64),
 	('cy', np.float64),
 	('cz', np.float64),
-	('age', np.float64),
-	('age_mu', np.float64),
+	('time', np.float64),
 	('x_mu', np.float64),
 	('y_mu', np.float64),
 	('z_mu', np.float64),
@@ -84,7 +83,6 @@ run = IMPL.LCRunHeaderImpl()
 run.setRunNumber(0)
 run.parameters().setValue('NInputFiles', len(args.files_in))
 run.parameters().setValue('Normalization', args.normalization)
-run.parameters().setValue('BXTime', args.bx_time)
 run.parameters().setValue('FilesPerEvent', args.files_event)
 if args.t_max:
 	run.parameters().setValue('Time_max', args.t_max)
@@ -93,7 +91,7 @@ if args.ne_min:
 if args.pdgs:
 	run.parameters().setValue('PdgIds', str(args.pdgs))
 if args.nopdgs:
-	run.parameters().setValue('NoPdgIds', args.nopdgs)
+	run.parameters().setValue('NoPdgIds', str(args.nopdgs))
 if args.comment:
 	run.parameters().setValue('Comment', args.comment)
 wrt.writeRunHeader(run)
@@ -108,6 +106,8 @@ evt = None
 
 # Reading the complete files
 for iF, file_in in enumerate(args.files_in):
+	if args.max_lines and nLines >= args.max_lines:
+			break
 	# Creating the LCIO event and collection
 	if nEventFiles == 0:
 		col = IMPL.LCCollectionVec(EVENT.LCIO.MCPARTICLE)
@@ -119,13 +119,14 @@ for iF, file_in in enumerate(args.files_in):
 	for iL, data in enumerate(bytes_from_file(file_in)):
 		if args.max_lines and nLines >= args.max_lines:
 			break
+		nLines += 1
 
 		# Extracting relevant values from the line
-		fid,e, x,y,z, cx,cy,cz, toff,toff_mo = (data[n][0] for n in [
+		fid,e, x,y,z, cx,cy,cz, time = (data[n][0] for n in [
 			'fid', 'E',
 			'x','y','z',
 			'cx', 'cy', 'cz',
-			'age', 'age_mo'
+			'time'
 		])
 
 		# Converting FLUKA ID to PDG ID
@@ -135,8 +136,8 @@ for iF, file_in in enumerate(args.files_in):
 			print(f'WARNING: Unknown PDG ID for FLUKA ID: {fid}')
 			continue
 
-		# Calculating the absolute time of the particle [ns]
-		t = (toff - toff_mo - args.bx_time) * 1e9
+		# Converting the absolute time of the particle [s -> ns]
+		t = time * 1e9
 
 		# Skipping if particle's time is greater than allowed
 		if args.t_max is not None and t > args.t_max:
@@ -170,14 +171,20 @@ for iF, file_in in enumerate(args.files_in):
 		particle.setTime(t)
 		particle.setMass(mass)
 		particle.setCharge(charge)
-		pos = np.array([x, y, z], dtype=np.float64)
+		# Converting position: cm -> mm
+		pos = np.array([x, y, z], dtype=np.float64) * 10.0
+
+		# Inverting Z position/momentum (if requested)
+		if args.invert_z:
+			pos[2] *= -1
+			mom[2] *= -1
 
 		# Creating the particle copies with random Phi rotation
 		px, py, pz = mom
 		for i, iP in enumerate(range(nP)):
 			p = IMPL.MCParticleImpl(particle)
-			# Rotating position and momentum of the copies by a random angle in Phi
-			if i > 0:
+			# Rotating position and momentum vectors by a random angle in Phi
+			if nP > 1:
 				dPhi = random.random() * math.pi * 2
 				co = math.cos(dPhi)
 				si = math.sin(dPhi)
