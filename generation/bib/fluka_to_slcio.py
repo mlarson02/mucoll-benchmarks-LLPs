@@ -139,6 +139,11 @@ for iF, file_in in enumerate(args.files_in):
 		# Converting the absolute time of the particle [s -> ns]
 		t = time * 1e9
 
+		# Converting the len units from cm to mm
+		x = x * 10
+		y = y * 10
+		z = z * 10
+
 		# Skipping if particle's time is greater than allowed
 		if args.t_max is not None and t > args.t_max:
 			continue
@@ -172,7 +177,7 @@ for iF, file_in in enumerate(args.files_in):
 		particle.setMass(mass)
 		particle.setCharge(charge)
 		# Converting position: cm -> mm
-		pos = np.array([x, y, z], dtype=np.float64) * 10.0
+		pos = np.array([x, y, z], dtype=np.float64)
 
 		# Inverting Z position/momentum (if requested)
 		if args.invert_z:
