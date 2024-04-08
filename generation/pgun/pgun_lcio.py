@@ -113,7 +113,6 @@ for e in range(args.events):
 			pdg_idx = np.random.choice(n_pdgs, 1)[0]
 		pdg = args.pdg[pdg_idx]
 		# Calculating all properties for this particle in the event
-		phi = rng.random() * math.pi * 2.
 		theta = samples['theta'][e]
 		phi = samples['phi'][e]
 		# Calculating momentum vector
@@ -128,10 +127,10 @@ for e in range(args.events):
 			py = p * math.sin(phi) * math.sin(theta)
 			pz = p * math.cos(theta)
 		momentum = array('f', [px, py, pz])
-		# Calculating vertex position
-		vx = samples['d0'][e] * math.cos(samples['dphi'][e])
-		vy = samples['d0'][e] * math.sin(samples['dphi'][e])
-		vz = samples['dz'][e]
+		# Calculating vertex position [converting mm -> cm] (LCIO default unit)
+		vx = samples['d0'][e] / 10.0 * math.cos(samples['dphi'][e])
+		vy = samples['d0'][e] / 10.0 * math.sin(samples['dphi'][e])
+		vz = samples['dz'][e] / 10.0
 		vtx = array('d', [vx, vy, vz])
 		# Assigning properties to the MCParticle
 		mcp = IMPL.MCParticleImpl()
