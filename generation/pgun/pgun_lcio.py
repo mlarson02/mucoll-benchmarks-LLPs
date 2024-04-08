@@ -14,16 +14,17 @@ import argparse
 parser = argparse.ArgumentParser(description='Generate LCIO::MCParticles with specified parameters')
 parser.add_argument('output', metavar='FILE_OUT.slcio', help='Output LCIO file')
 parser.add_argument('-c', '--comment', metavar='TEXT',  help='Comment to be added to the run header', type=str)
-parser.add_argument('-e', '--events', metavar='N', type=int, default=1,  help='Generate N events')
-parser.add_argument('-p', '--particles', metavar='N', type=int, default=1,  help='Generate N particles/event')
+parser.add_argument('-e', '--events', metavar='N', type=int, default=1,  help='# of events to generate (default: 1)')
+parser.add_argument('-p', '--particles', metavar='N', type=int, default=1,  help='# of particles/event to generate (default: 1)')
 parser.add_argument('-o', '--overwrite', action='store_true',  help='Overwrite existing output file')
-parser.add_argument('--pdg', metavar='ID', type=int, default=[13], nargs='+',  help='PdgIds of the allowed particles')
-parser.add_argument('--dt', metavar='V', type=float, nargs='*', default=0,  help='Time offset [ns]')
-parser.add_argument('--dz', metavar='V', type=float, nargs='*', default=0,  help='Vertex position along Z [mm]')
-parser.add_argument('--d0', metavar='V', type=float, nargs='*', default=0,  help='Vertex position along R [mm]')
+parser.add_argument('--pdg', metavar='ID', type=int, default=[13], nargs='+',  help='PdgIds of the allowed particles (default: [13])')
+parser.add_argument('--dt', metavar='V', type=float, nargs='*', default=0,  help='Time offset [ns] (default: 0)')
+parser.add_argument('--dz', metavar='V', type=float, nargs='*', default=0,  help='Vertex position along Z [mm] (default: 0)')
+parser.add_argument('--d0', metavar='V', type=float, nargs='*', default=0,  help='Vertex position along R [mm] (default: 0)')
 parser.add_argument('--pt', metavar='V', type=float, nargs='*',  help='Tranverse momentum [GeV]')
 parser.add_argument('--p', metavar='V', type=float, nargs='*',  help='Total momentum [GeV]')
-parser.add_argument('--theta', metavar='A', type=float, default=90, nargs='+',  help='Polar angle [deg]')
+parser.add_argument('--theta', metavar='A', type=float, default=[90], nargs='+',  help='Polar angle [deg] (default: 90)')
+parser.add_argument('--phi', metavar='A', type=float, default=[0,360], nargs='+',  help='Azimuthal angle [deg] (default: 0)')
 
 args = parser.parse_args()
 
@@ -54,6 +55,7 @@ configs = {
 	'd0': args.d0,
 	# Converting degrees to radians
 	'theta': [math.radians(a) for a in args.theta],
+	'phi': [math.radians(a) for a in args.phi]
 }
 if args.pt is not None:
 	configs['pt'] = args.pt
@@ -113,6 +115,7 @@ for e in range(args.events):
 		# Calculating all properties for this particle in the event
 		phi = rng.random() * math.pi * 2.
 		theta = samples['theta'][e]
+		phi = samples['phi'][e]
 		# Calculating momentum vector
 		if 'pt' in configs:
 			pt = samples['pt'][e]
@@ -126,9 +129,9 @@ for e in range(args.events):
 			pz = p * math.cos(theta)
 		momentum = array('f', [px, py, pz])
 		# Calculating vertex position
-		vx = samples['d0'][e] / 10.0 * math.cos(samples['dphi'][e])
-		vy = samples['d0'][e] / 10.0 * math.sin(samples['dphi'][e])
-		vz = samples['dz'][e] / 10.0
+		vx = samples['d0'][e] * math.cos(samples['dphi'][e])
+		vy = samples['d0'][e] * math.sin(samples['dphi'][e])
+		vz = samples['dz'][e]
 		vtx = array('d', [vx, vy, vz])
 		# Assigning properties to the MCParticle
 		mcp = IMPL.MCParticleImpl()
