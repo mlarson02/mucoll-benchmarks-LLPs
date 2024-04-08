@@ -52,7 +52,8 @@ configs = {
 	'dt': args.dt,
 	'dz': args.dz,
 	'd0': args.d0,
-	'theta': args.theta
+	# Converting degrees to radians
+	'theta': [math.radians(a) for a in args.theta],
 }
 if args.pt is not None:
 	configs['pt'] = args.pt
@@ -69,7 +70,7 @@ for name, values in configs.items():
 		samples[name] = rng.random(sample_size) * (values[1] - values[0]) + values[0]
 	elif len(values) == 3:
 		samples[name] = np.random.normal(values[1], values[2], sample_size)
-# Adding randomised phi angle for d0
+# Adding randomised phi angle for d0 (independent from the particle's direction)
 samples['dphi'] = rng.random(sample_size) * math.pi * 2.
 
 # Opening the output file
