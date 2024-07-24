@@ -21,25 +21,30 @@
     15  6
     15 10
     15 14
+  <!--  17 2 -->
+  <!--  17 6 -->
   </parameter>
   <parameter name="SeedFinding_RMax" type="float">150</parameter>
   <parameter name="SeedFinding_DeltaRMin" type="float">5</parameter>
   <parameter name="SeedFinding_DeltaRMax" type="float">80</parameter>
   <parameter name="SeedFinding_CollisionRegion" type="float">1</parameter>
+  <!-- <parameter name="SeedFinding_CollisionRegion" type="float">100</parameter> --> <!-- uncomment for displaced tracking -->
   <parameter name="SeedFinding_RadLengthPerSeed" type="float">0.1</parameter>
   <parameter name="SeedFinding_SigmaScattering" type="float">50</parameter>
   <parameter name="SeedFinding_MinPt" type="float">500</parameter>
+  <!--<parameter name="PropagateBackward" type="bool">False</parameter> --> <!-- uncomment for displaced tracking -->
+  <!-- <parameter name="SeedFinding_ImpactMax" type="float">130</parameter> --> <!-- uncomment for displaced tracking -->
   <!-- CKF Configuration -->
   <parameter name="CKF_Chi2CutOff" type="float">10</parameter>
   <parameter name="CKF_NumMeasurementsCutOff" type="int">1</parameter>
   <!--Define input tracker hits and relations. NB. Order must be respected -->
   <parameter name="TrackerHitCollectionNames" type="StringVec" lcioInType="TrackerHitPlane">
-    VXDBarrelHits
-    VXDEndcapHits
-    ITBarrelHits
-    ITEndcapHits
-    OTBarrelHits
-    OTEndcapHits
+    VBTrackerHits
+    IBTrackerHits
+    OBTrackerHits
+    VETrackerHits
+    IETrackerHits
+    OETrackerHits
   </parameter>
   <!--Track Collection Names-->
   <parameter name="RunCKF" type="bool">True</parameter>
@@ -95,5 +100,19 @@
   <parameter name="extrapolateForward" type="bool"> true </parameter>
   <!--Final minimum number of track clusters-->
   <parameter name="MinClustersOnTrackAfterFit" type="int">3 </parameter>
+</processor>
+
+<processor name="MyTrackTruth" type="TrackTruthProc">
+  <parameter name="TrackCollection" type="string" lcioInType="Track">SiTracks_Refitted</parameter>
+  <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle">MCParticle</parameter>
+  <parameter name="TrackerHit2SimTrackerHitRelationName" type="StringVec" lcioInType="LCRelation">
+  VBTrackerHitsRelations
+  IBTrackerHitsRelations
+  OBTrackerHitsRelations
+  VETrackerHitsRelations
+  IETrackerHitsRelations
+  OETrackerHitsRelations
+  </parameter>
+  <parameter name="Particle2TrackRelationName" type="string" lcioOutType="LCRelation">MCParticle_SiTracks_Refitted</parameter>
 </processor>
 

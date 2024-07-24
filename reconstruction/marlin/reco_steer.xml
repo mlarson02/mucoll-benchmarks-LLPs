@@ -15,10 +15,19 @@
     <!-- ========== DD4hep.xml ========== -->
     <processor name="DD4hep"/>
 
+    <!-- ==========  Tracker Digitization  ========== -->
+    <processor name="VXDBarrelDigitiser"/>
+    <processor name="VXDEndcapDigitiser"/>
+    <processor name="InnerPlanarDigiProcessor"/>
+    <processor name="InnerEndcapPlanarDigiProcessor"/>
+    <processor name="OuterPlanarDigiProcessor"/>
+    <processor name="OuterEndcapPlanarDigiProcessor"/>
+
     <!-- ========== TrackReconstruction.xml ========== -->
     <processor name="CKFTracking"/>
     <processor name="TrackDeduplication"/>
     <processor name="TrackRefit"/>
+    <processor name="MyTrackTruth"/>
 
     <!-- =============== PFOReconstruction.xml ================= -->
     <processor name="DDMarlinPandora" />
@@ -53,6 +62,7 @@
   <include ref="subconfigs/PFOReconstruction.xml"/>
   <include ref="subconfigs/PFOSelection.xml"/>
   <include ref="subconfigs/VertexJet.xml"/>
+  <include ref="subconfigs/TrackDigitization.xml"/>
 
   <!-- Defining other processors directly in the steering file -->
   <processor name="Config" type="CLICRecoConfig" >
@@ -91,7 +101,7 @@
     <parameter name="FullSubsetCollections" type="StringVec">  </parameter>
     <parameter name="DropCollectionTypes" type="StringVec">  </parameter>
     <parameter name="DropCollectionNames" type="StringVec">  </parameter>
-    <parameter name="KeepCollectionNames" type="StringVec">  </parameter>
+    <parameter name="KeepCollectionNames" type="StringVec"> MCParticle_SiTracks_Refitted </parameter>
     <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>
     <parameter name="Verbosity" type="string">WARNING </parameter>
     <!-- <parameter name="SplitFileSizekB" type="int">996147 </parameter> -->
@@ -107,8 +117,6 @@
       CalorimeterHit
       SimTrackerHit
       TrackerHitPlane
-      Track
-      LCRelation
     </parameter>
     <parameter name="DropCollectionNames" type="StringVec">  </parameter>
     <parameter name="KeepCollectionNames" type="StringVec">
@@ -116,10 +124,10 @@
       SiTracks_Refitted_Relations
       PandoraPFOs
       MCPhysicsParticle
+      MCParticle_SiTracks_Refitted
     </parameter>
     <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>
     <parameter name="Verbosity" type="string">WARNING </parameter>
   </processor>
 
 </marlin>
-
