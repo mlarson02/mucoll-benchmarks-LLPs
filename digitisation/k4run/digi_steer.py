@@ -432,7 +432,7 @@ OverlayFull.Parameters = {
     "IntegrationTimeMin": ["-0.5"],
     "MCParticleCollectionName": ["MCParticle"],
     "MergeMCParticles": ["false"],
-    "NumberBackground": ["192"] #Magic number assumes 20 phi clones of each MC particle
+    "NumberBackground": ["192"] #Magic number assumes 45 phi clones of each MC particle
 }
 
 OverlayIP = MarlinProcessorWrapper("OverlayIP")
