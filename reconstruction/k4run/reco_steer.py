@@ -1,15 +1,10 @@
 from Gaudi.Configuration import *
 
 from Configurables import LcioEvent, EventDataSvc, MarlinProcessorWrapper
-from k4MarlinWrapper.parseConstants import *
+
 algList = []
 evtsvc = EventDataSvc()
 
-
-CONSTANTS = {
-}
-
-parseConstants(CONSTANTS)
 
 read = LcioEvent()
 read.OutputLevel = INFO
