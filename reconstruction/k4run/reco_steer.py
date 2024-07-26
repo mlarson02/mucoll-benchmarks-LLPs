@@ -100,7 +100,7 @@ CKFTracking.Parameters = {
         ],
     "TGeoFile": ["/path/to/tgeo.root"],
     "TrackCollectionName": ["AllTracks"],
-    "TrackerHitCollectionNames": ["VBTrackerHits", "IBTrackerHits", "OBTrackerHits", "VETrackerHits", "IETrackerHits", "OETrackerHits"],
+    "TrackerHitCollectionNames": ["VXDBarrelHits", "ITBarrelHits", "OTBarrelHits", "VXDEndcapHits", "ITEndcapHits", "OTEndcapHits"],
     "CaloFace_Radius": ["1500"],
     "CaloFace_Z": ["2307"]
 }
