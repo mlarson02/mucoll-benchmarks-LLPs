@@ -24,11 +24,25 @@
     <processor name="OuterEndcapPlanarDigiProcessor"/>
 
     <!-- ========== TrackReconstruction.xml ========== -->
-    <processor name="CKFTracking"/>
+    <!-- <processor name="CKFTracking"/>
     <processor name="TrackDeduplication"/>
     <processor name="TrackRefit"/>
-    <processor name="MyTrackTruth"/>
+    <processor name="MyTrackTruth"/> -->
 
+    <!-- ==========  Tracking  ========== -->
+    <processor name="CKFTracking"/>
+    <processor name="TrackDeduplication"/>
+    <processor name="MergeHits" />
+    <processor name="MyHitSlimmer" />
+
+    <!-- ==========  LLP Tracking  ========== -->
+    <processor name="MyCKFTracking_LLP"/>
+    <processor name="MyTrackDeduper_LLP"/>
+    <processor name="MergeTracks" />
+    <processor name="MyMergedTrackTruth" />
+    <processor name="Refit" />
+    <processor name="MySelectedTrackTruth"/>
+    
     <!-- =============== PFOReconstruction.xml ================= -->
     <processor name="DDMarlinPandora" />
 
@@ -40,7 +54,7 @@
 
     <!-- ========== Output ========== -->
     <processor name="LCIOWriter_all"/>
-    <processor name="LCIOWriter_light"/>
+    <!--<processor name="LCIOWriter_light"/>-->
 
   </execute>
 

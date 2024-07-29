@@ -21,8 +21,6 @@
     15  6
     15 10
     15 14
-  <!--  17 2 -->
-  <!--  17 6 -->
   </parameter>
   <parameter name="SeedFinding_RMax" type="float">150</parameter>
   <parameter name="SeedFinding_DeltaRMin" type="float">5</parameter>
@@ -57,51 +55,6 @@
   <parameter name="OutputTrackCollectionName" type="string" lcioOutType="Track">SiTracks</parameter>
 </processor>
 
-
-<processor name="TrackRefit" type="RefitFinal">
-  <!--Refit processor that calls finaliseLCIOTrack after taking the track state from the existing track. No re-sorting of hits is done-->
-  <!--Use Energy Loss in Fit-->
-  <parameter name="EnergyLossOn" type="bool"> true </parameter>
-  <!--Add extra cuts on the reduced ChiSquare and Nhits -->
-  <parameter name="DoCutsOnRedChi2Nhits" type="bool"> true </parameter>
-  <!--Cut on the reduced chi square-->
-  <parameter name="ReducedChi2Cut" type="double"> 3. </parameter>
-  <!--Cuts on Nhits: <detID>,<detID>,... <lower threshold> -->
-  <parameter name="NHitsCuts" type="StringVec">
-    1,2 1
-    3,4 1
-    5,6 0
-  </parameter>
-
-
-  <!--Name of the input track to MCParticle relation collection-->
-  <parameter name="InputRelationCollectionName" type="string" lcioInType="LCRelation"> SiTracksRelations </parameter>
-  <!--Name of the input track collection-->
-  <parameter name="InputTrackCollectionName" type="string" lcioInType="Track"> SiTracks </parameter>
-  <!--maximum allowable chi2 increment when moving from one site to another-->
-  <parameter name="Max_Chi2_Incr" type="double"> 1.79769e+30 </parameter>
-  <!--Use MultipleScattering in Fit-->
-  <parameter name="MultipleScatteringOn" type="bool"> true </parameter>
-  <!--Refit Track to MCParticle relation collection Name-->
-  <parameter name="OutputRelationCollectionName" type="string" lcioOutType="LCRelation">
-    SiTracks_Refitted_Relations
-  </parameter>
-  <!--Name of the output track collection-->
-  <parameter name="OutputTrackCollectionName" type="string" lcioOutType="Track">
-    SiTracks_Refitted
-  </parameter>
-  <!--Identifier of the reference point to use for the fit initialisation, -1 means at 0 0 0-->
-  <parameter name="ReferencePoint" type="int"> -1 </parameter>
-  <!--Smooth All Mesurement Sites in Fit-->
-  <parameter name="SmoothOn" type="bool"> false </parameter>
-  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
-  <parameter name="Verbosity" type="string"> MESSAGE </parameter>
-  <!--if true extrapolation in the forward direction (in-out), otherwise backward (out-in)-->
-  <parameter name="extrapolateForward" type="bool"> true </parameter>
-  <!--Final minimum number of track clusters-->
-  <parameter name="MinClustersOnTrackAfterFit" type="int">3 </parameter>
-</processor>
-
 <processor name="MyTrackTruth" type="TrackTruthProc">
   <parameter name="TrackCollection" type="string" lcioInType="Track">SiTracks_Refitted</parameter>
   <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle">MCParticle</parameter>
@@ -116,3 +69,147 @@
   <parameter name="Particle2TrackRelationName" type="string" lcioOutType="LCRelation">MCParticle_SiTracks_Refitted</parameter>
 </processor>
 
+<processor name="MergeHits" type="MergeCollections">
+    <parameter name="InputCollections" type="StringVec">
+      VBTrackerHits
+      IBTrackerHits
+      OBTrackerHits
+      VETrackerHits
+      IETrackerHits
+      OETrackerHits
+    </parameter>
+    <parameter name="OutputCollection" type="string"> HitsCollection </parameter>
+  </processor>
+
+<processor name="MyHitSlimmer" type="HitSlimmer">
+  <!--Name of the TrackerHit input collections-->
+  <parameter name="TrackerHitCollectionName" type="string" lcioInType="TrackerHitPlane">HitsCollection</parameter>
+  <!--Name of the Track input collections-->
+  <parameter name="TrackCollectionName" type="string" lcioInType="Track">SiTracks</parameter>
+  <!--Name of the TrackerHit output collections-->
+  <parameter name="SlimmedHitsCollectionName" type="string" lcioOutType="TrackerHitPlane">SlimmedHitsCollection</parameter>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <parameter name="Verbosity" type="string">WARNING0 </parameter>
+</processor>
+
+<!-- == LLP TrackFinder parameters == -->
+<processor name="MyCKFTracking_LLP" type="ACTSSeededCKFTrackingProc">
+  <!-- Path to material description -->
+  <parameter name="MatFile" type="string">
+    /cvmfs/muoncollider.cern.ch/release/2.8-patch2/linux-almalinux9-x86_64/gcc-11.3.1/actstracking-1.1.0-rrtn3jhc747ddrmey53jgsiv5ub5yhs5/share/ACTSTracking/data/material-maps.json
+  </parameter>
+  <!-- Path to tracking geometry -->
+  <parameter name="TGeoFile" type="string">
+    /cvmfs/muoncollider.cern.ch/release/2.8-patch2/linux-almalinux9-x86_64/gcc-11.3.1/actstracking-1.1.0-rrtn3jhc747ddrmey53jgsiv5ub5yhs5/share/ACTSTracking/data/MuColl_v1.root
+  </parameter>
+  <!-- Vol Layer, use -1 for all, ACTS numbers -->
+  <parameter name="SeedingLayers" type="string">
+      23 2
+      23 4
+      23 6
+      23 8
+      20 2
+      24 2
+      24 4
+      24 6
+      25 2
+      25 4
+      25 6
+      25 8
+  </parameter>
+  <parameter name="SeedFinding_RMax" type="float">1500</parameter>
+  <parameter name="SeedFinding_ZMax" type="float">2200</parameter>
+  <parameter name="SeedFinding_DeltaRMin" type="float">5</parameter>
+  <parameter name="SeedFinding_DeltaRMax" type="float">350</parameter>
+  <parameter name="SeedFinding_CollisionRegion" type="float">75</parameter>
+  <parameter name="SeedFinding_RadLengthPerSeed" type="float">0.1</parameter>
+  <parameter name="SeedFinding_SigmaScattering" type="float">50</parameter>
+  <parameter name="SeedFinding_MinPt" type="float">1000</parameter>
+  <parameter name="SeedFinding_ImpactMax" type="int">150</parameter>
+  <!-- CKF Configuration -->
+  <parameter name="CKF_Chi2CutOff" type="float">10</parameter>
+  <parameter name="CKF_NumMeasurementsCutOff" type="int">1</parameter>
+  <!--Define input tracker hits and relations. NB. Order must be respected -->
+  <parameter name="TrackerHitCollectionNames" type="StringVec" lcioInType="TrackerHitPlane">
+    SlimmedHitsCollection
+  </parameter>
+  <!--Track Collection Names-->
+  <parameter name="RunCKF" type="bool">True</parameter>
+  <parameter name="PropagateBackward" type="bool">True</parameter>
+  <parameter name="SeedCollectionName" type="string" lcioOutType="Track">SeedTracks_LLP</parameter>
+  <parameter name="TrackCollectionName" type="string" lcioOutType="Track">AllTracks_LLP</parameter>
+</processor>
+
+<processor name="MyTrackDeduper_LLP" type="ACTSDuplicateRemoval">
+  <parameter name="InputTrackCollectionName" type="string" lcioOutType="Track">AllTracks_LLP</parameter>
+  <parameter name="OutputTrackCollectionName" type="string" lcioOutType="Track">Tracks_LLP</parameter>
+</processor>
+
+<processor name="MergeTracks" type="MergeCollections">
+  <parameter name="InputCollections" type="StringVec">
+    SiTracks
+    Tracks_LLP
+  </parameter>
+  <parameter name="OutputCollection" type="string"> MergedTracks </parameter>
+  <parameter name="Verbosity" type="string">ERROR</parameter>
+</processor>
+
+<processor name="MyMergedTrackTruth" type="TrackTruthProc">
+  <parameter name="TrackCollection" type="string" lcioInType="Track">MergedTracks</parameter>
+  <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle">MCParticle</parameter>
+  <parameter name="TrackerHit2SimTrackerHitRelationName" type="StringVec" lcioInType="LCRelation">
+    VBTrackerHitsRelations
+    IBTrackerHitsRelations
+    OBTrackerHitsRelations
+    VETrackerHitsRelations
+    IETrackerHitsRelations
+    OETrackerHitsRelations
+  </parameter>
+  <parameter name="Particle2TrackRelationName" type="string" lcioOutType="LCRelation">MCParticle_MergedTracks</parameter>
+</processor>
+
+<processor name="Refit" type="RefitFinal">
+  <!--Refit processor that calls finaliseLCIOTrack after taking the trackstate from the existing track. No re-sorting of hits is done-->
+  <!--Use Energy Loss in Fit-->
+  <parameter name="EnergyLossOn" type="bool"> true </parameter>
+  <!--Name of the input track to MCParticle relation collection-->
+  <parameter name="InputRelationCollectionName" type="string" lcioInType="LCRelation"> MCParticle_MergedTracks </parameter>
+  <!--Name of the input track collection-->
+  <parameter name="InputTrackCollectionName" type="string" lcioInType="Track"> MergedTracks </parameter>
+  <!--maximum allowable chi2 increment when moving from one site to another-->
+  <parameter name="Max_Chi2_Incr" type="double"> 1.79769e+30 </parameter>
+  <!--Use MultipleScattering in Fit-->
+  <parameter name="MultipleScatteringOn" type="bool"> true </parameter>
+  <!--Refit Track to MCParticle relation collection Name-->
+  <parameter name="OutputRelationCollectionName" type="string" lcioOutType="LCRelation">
+    SiTracks_Refitted_Relation
+  </parameter>
+  <!--Name of the output track collection-->
+  <parameter name="OutputTrackCollectionName" type="string" lcioOutType="Track">
+    SiTracks_Refitted
+  </parameter>
+  <!--Identifier of the reference point to use for the fit initialisation, -1 means at 0 0 0-->
+  <parameter name="ReferencePoint" type="int"> -1 </parameter>
+  <!--Smooth All Mesurement Sites in Fit-->
+  <parameter name="SmoothOn" type="bool"> true </parameter>
+  <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+  <!--parameter name="Verbosity" type="string"> DEBUG </parameter-->
+  <!--if true extrapolation in the forward direction (in-out), otherwise backward (out-in)-->
+  <parameter name="extrapolateForward" type="bool"> true </parameter>
+  <!--Final minimum number of track clusters-->
+  <parameter name="MinClustersOnTrackAfterFit" type="int">0 </parameter>
+</processor>
+
+<processor name="MySelectedTrackTruth" type="TrackTruthProc">
+  <parameter name="TrackCollection" type="string" lcioInType="Track">SiTracks_Refitted</parameter>
+  <parameter name="MCParticleCollection" type="string" lcioInType="MCParticle">MCParticle</parameter>
+  <parameter name="TrackerHit2SimTrackerHitRelationName" type="StringVec" lcioInType="LCRelation">
+    VBTrackerHitsRelations
+    IBTrackerHitsRelations
+    OBTrackerHitsRelations
+    VETrackerHitsRelations
+    IETrackerHitsRelations
+    OETrackerHitsRelations
+  </parameter>
+  <parameter name="Particle2TrackRelationName" type="string" lcioOutType="LCRelation">MCParticle_SiTracks_Refitted</parameter>
+</processor>
