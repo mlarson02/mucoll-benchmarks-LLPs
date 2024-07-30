@@ -1,6 +1,66 @@
+import os
 from Gaudi.Configuration import *
 
 from Configurables import LcioEvent, EventDataSvc, MarlinProcessorWrapper
+from k4FWCore.parseArgs import parser
+
+parser.add_argument(
+    "--DD4hepXMLFile",
+    help="Compact detector description file",
+    type=str,
+    default=os.environ.get("MUCOLL_GEO", ""),
+)
+
+parser.add_argument(
+    "--OverlayFullPathToMuPlus",
+    help="Path to files for muplus BIB overlay",
+    type=str,
+    default="/path/to/muplus/",
+)
+
+parser.add_argument(
+    "--OverlayFullPathToMuMinus",
+    help="Path to files for muminus BIB overlay",
+    type=str,
+    default="/path/to/muminus/",
+)
+
+parser.add_argument(
+    "--OverlayFullNumberBackground",
+    help="Number of background files used for BIB overlay",
+    type=str,
+    default="192", #Magic number assumes 45 phi clones of each MC particle
+)
+
+parser.add_argument(
+    "--OverlayIPBackgroundFileNames",
+    help="Path to files used for incoherent pairs overlay",
+    type=str,
+    default="/path/to/pairs.slcio",
+)
+
+parser.add_argument(
+    "--doOverlayFull",
+    help="Do BIB overlay",
+    action="store_true",
+    default=False,
+)
+
+parser.add_argument(
+    "--doOverlayIP",
+    help="Do incoherent pairs overlay",
+    action="store_true",
+    default=False,
+)
+
+parser.add_argument(
+    "--doFilterDL",
+    help="Do double-layer filtering",
+    action="store_true",
+    default=False,
+)
+
+the_args = parser.parse_known_args()[0]
 
 algList = []
 evtsvc = EventDataSvc()
@@ -14,7 +74,7 @@ DD4hep = MarlinProcessorWrapper("DD4hep")
 DD4hep.OutputLevel = INFO
 DD4hep.ProcessorType = "InitializeDD4hep"
 DD4hep.Parameters = {
-                     "DD4hepXMLFile": ["/path/to/compact/geometry/file.xml"],
+                     "DD4hepXMLFile": [the_args.DD4hepXMLFile],
                      "EncodingStringParameterName": ["GlobalTrackerReadoutID"]
                      }
 
@@ -411,8 +471,8 @@ OverlayFull = MarlinProcessorWrapper("OverlayFull")
 OverlayFull.OutputLevel = INFO
 OverlayFull.ProcessorType = "OverlayTimingRandomMix"
 OverlayFull.Parameters = {
-    "PathToMuPlus": ["/path/to/muminus/"],
-    "PathToMuMinus": ["/path/to/muplus/"],
+    "PathToMuPlus": [the_args.OverlayFullPathToMuPlus],
+    "PathToMuMinus": [the_args.OverlayFullPathToMuMinus],
     "Collection_IntegrationTimes": [
         "VertexBarrelCollection", "-0.5", "15.",
         "VertexEndcapCollection", "-0.5", "15.",
@@ -432,7 +492,7 @@ OverlayFull.Parameters = {
     "IntegrationTimeMin": ["-0.5"],
     "MCParticleCollectionName": ["MCParticle"],
     "MergeMCParticles": ["false"],
-    "NumberBackground": ["192"] #Magic number assumes 45 phi clones of each MC particle
+    "NumberBackground": [the_args.OverlayFullNumberBackground]
 }
 
 OverlayIP = MarlinProcessorWrapper("OverlayIP")
@@ -440,7 +500,7 @@ OverlayIP.OutputLevel = INFO
 OverlayIP.ProcessorType = "OverlayTimingGeneric"
 OverlayIP.Parameters = {
     "AllowReusingBackgroundFiles": ["true"],
-    "BackgroundFileNames": ["/path/to/pairs.slcio"],
+    "BackgroundFileNames": [the_args.OverlayIPBackgroundFileNames],
     "Collection_IntegrationTimes": [
         "VertexBarrelCollection", "-0.5", "15.",
         "VertexEndcapCollection", "-0.5", "15.",
@@ -474,16 +534,19 @@ OverlayIP.Parameters = {
 algList.append(AIDA)
 algList.append(EventNumber)
 algList.append(DD4hep)
-# algList.append(OverlayFull)   # Full BX BIB overlay
-# algList.append(OverlayIP)     # Incoherent pairs full BX BIB overlay
+if the_args.doOverlayFull:
+    algList.append(OverlayFull)   # Full BX BIB overlay
+if the_args.doOverlayIP:
+    algList.append(OverlayIP)     # Incoherent pairs full BX BIB overlay
 algList.append(VXDBarrelDigitiser)
 algList.append(VXDEndcapDigitiser)
 algList.append(ITBarrelDigitiser)
 algList.append(ITEndcapDigitiser)
 algList.append(OTBarrelDigitiser)
 algList.append(OTEndcapDigitiser)
-# algList.append(FilterDL_VXDB)  # Config.OverlayNotFalse
-# algList.append(FilterDL_VXDE)  # Config.OverlayNotFalse
+if the_args.doFilterDL:
+    algList.append(FilterDL_VXDB)
+    algList.append(FilterDL_VXDE)
 algList.append(ECalBarrelDigi)
 algList.append(ECalBarrelReco)
 algList.append(ECalPlugDigi)
