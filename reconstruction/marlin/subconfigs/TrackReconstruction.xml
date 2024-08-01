@@ -121,7 +121,7 @@
   <parameter name="SeedFinding_ZMax" type="float">2200</parameter>
   <parameter name="SeedFinding_DeltaRMin" type="float">5</parameter>
   <parameter name="SeedFinding_DeltaRMax" type="float">350</parameter>
-  <parameter name="SeedFinding_CollisionRegion" type="float">75</parameter>
+  <parameter name="SeedFinding_CollisionRegion" type="float">100</parameter>
   <parameter name="SeedFinding_RadLengthPerSeed" type="float">0.1</parameter>
   <parameter name="SeedFinding_SigmaScattering" type="float">50</parameter>
   <parameter name="SeedFinding_MinPt" type="float">1000</parameter>
@@ -135,7 +135,7 @@
   </parameter>
   <!--Track Collection Names-->
   <parameter name="RunCKF" type="bool">True</parameter>
-  <parameter name="PropagateBackward" type="bool">True</parameter>
+  <parameter name="PropagateBackward" type="bool">False</parameter>
   <parameter name="SeedCollectionName" type="string" lcioOutType="Track">SeedTracks_LLP</parameter>
   <parameter name="TrackCollectionName" type="string" lcioOutType="Track">AllTracks_LLP</parameter>
 </processor>

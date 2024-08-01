@@ -113,8 +113,8 @@
   <processor name="LCIOWriter_all" type="LCIOOutputProcessor">
     <parameter name="LCIOOutputFile" type="string"> output_reco.slcio </parameter>
     <parameter name="FullSubsetCollections" type="StringVec">  </parameter>
-    <parameter name="DropCollectionTypes" type="StringVec">  </parameter>
-    <parameter name="DropCollectionNames" type="StringVec">  </parameter>
+    <parameter name="DropCollectionTypes" type="StringVec"> SimCalorimeterHit TrackerHitPlane </parameter>
+    <parameter name="DropCollectionNames" type="StringVec"> AllTracks AllTracks_LLP Tracks Tracks_LLP SiTracks_Refitted_Relation MergedTracks SeedTracks_LLP SeedTracks MCPhysicsParticles IBTrackerHitsRelations IETrackerHitsRelations OBTrackerHitsRelations OETrackerHitsRelations VBTrackerHitsRelations VETrackerHitsRelations RelationCaloHit RelationMuonHit  </parameter>
     <parameter name="KeepCollectionNames" type="StringVec"> MCParticle_SiTracks_Refitted </parameter>
     <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>
     <parameter name="Verbosity" type="string">WARNING </parameter>

@@ -209,6 +209,11 @@ SIM.part.saveProcesses = ['Decay']
 SIM.physics.decays = False
 SIM.physics.list = "QGSP_BERT"
 
+# Configure the output action to exclude SimCalorimeterHit
+# Define the output actions
+output = SIM.add(SIM.OutputAction("MyOutput"))
+output.collections = ["TrackerHits"]
+
 ##  location of particle.tbl file containing extra particles and their lifetime information
 ##     
 SIM.physics.pdgfile = os.path.join( os.environ.get("DD4HEP"), "DDG4/examples/particle.tbl" )
