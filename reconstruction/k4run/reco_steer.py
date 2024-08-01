@@ -1,6 +1,31 @@
+import os
 from Gaudi.Configuration import *
 
 from Configurables import LcioEvent, EventDataSvc, MarlinProcessorWrapper
+from k4FWCore.parseArgs import parser
+
+parser.add_argument(
+    "--DD4hepXMLFile",
+    help="Compact detector description file",
+    type=str,
+    default=os.environ.get("MUCOLL_GEO", ""),
+)
+
+parser.add_argument(
+    "--MatFile",
+    help="Material maps file for tracking",
+    type=str,
+    default="/path/to/material-maps.json",
+)
+
+parser.add_argument(
+    "--TGeoFile",
+    help="TGeometry file for tracking",
+    type=str,
+    default="/path/to/tgeo.root",
+)
+
+the_args = parser.parse_known_args()[0]
 
 algList = []
 evtsvc = EventDataSvc()
@@ -15,7 +40,7 @@ DD4hep = MarlinProcessorWrapper("DD4hep")
 DD4hep.OutputLevel = INFO
 DD4hep.ProcessorType = "InitializeDD4hep"
 DD4hep.Parameters = {
-                     "DD4hepXMLFile": ["/path/to/compact/geometry/file.xml"],
+                     "DD4hepXMLFile": [the_args.DD4hepXMLFile],
                      "EncodingStringParameterName": ["GlobalTrackerReadoutID"]
                      }
 
@@ -73,7 +98,7 @@ CKFTracking.ProcessorType = "ACTSSeededCKFTrackingProc"
 CKFTracking.Parameters = {
     "CKF_Chi2CutOff": ["10"],
     "CKF_NumMeasurementsCutOff": ["1"],
-    "MatFile": ["/path/to/material-maps.json"],
+    "MatFile": [the_args.MatFile],
     "PropagateBackward": ["False"],
     "RunCKF": ["True"],
     "SeedFinding_CollisionRegion": ["3.5"],
@@ -98,7 +123,7 @@ CKFTracking.Parameters = {
         "14", "2", "14", "6", "14", "10", "14", "14", 
         "15", "2", "15", "6", "15", "10", "15", "14",
         ],
-    "TGeoFile": ["/path/to/tgeo.root"],
+    "TGeoFile": [the_args.TGeoFile],
     "TrackCollectionName": ["AllTracks"],
     "TrackerHitCollectionNames": ["VXDBarrelHits", "ITBarrelHits", "OTBarrelHits", "VXDEndcapHits", "ITEndcapHits", "OTEndcapHits"],
     "CaloFace_Radius": ["1500"],
