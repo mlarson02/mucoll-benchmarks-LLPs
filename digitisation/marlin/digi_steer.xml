@@ -111,7 +111,7 @@
   <processor name="LCIOWriter_all" type="LCIOOutputProcessor">
     <parameter name="LCIOOutputFile" type="string"> output_digi.slcio </parameter>
     <parameter name="FullSubsetCollections" type="StringVec">  </parameter>
-    <parameter name="DropCollectionTypes" type="StringVec">  </parameter>
+    <parameter name="DropCollectionTypes" type="StringVec"> SimCalorimeterHit </parameter>
     <parameter name="DropCollectionNames" type="StringVec">  </parameter>
     <parameter name="KeepCollectionNames" type="StringVec">  </parameter>
     <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>

@@ -22,7 +22,7 @@
   <!--Lower bound of the time window [ns]-->
   <parameter name="TimeWindowMin" type="float"> -0.09 </parameter>
   <!--Upper bound of the time window [ns]-->
-  <parameter name="TimeWindowMax" type="float"> 0.15 </parameter>
+  <parameter name="TimeWindowMax" type="float"> 0.32 </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <parameter name="Verbosity" type="string"> WARNING </parameter>
 </processor>
@@ -50,7 +50,7 @@
   <!--Lower bound of the time window [ns]-->
   <parameter name="TimeWindowMin" type="float"> -0.09 </parameter>
   <!--Upper bound of the time window [ns]-->
-  <parameter name="TimeWindowMax" type="float"> 0.15 </parameter>
+  <parameter name="TimeWindowMax" type="float"> 0.32 </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <parameter name="Verbosity" type="string"> WARNING </parameter>
 </processor>
@@ -79,7 +79,7 @@
   <!--Lower bound of the time window [ns]-->
   <parameter name="TimeWindowMin" type="float"> -0.18 </parameter>
   <!--Upper bound of the time window [ns]-->
-  <parameter name="TimeWindowMax" type="float"> 0.3 </parameter>
+  <parameter name="TimeWindowMax" type="float"> 0.64 </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <parameter name="Verbosity" type="string"> WARNING </parameter>
 </processor>
@@ -107,7 +107,7 @@
   <!--Lower bound of the time window [ns]-->
   <parameter name="TimeWindowMin" type="float"> -0.18 </parameter>
   <!--Upper bound of the time window [ns]-->
-  <parameter name="TimeWindowMax" type="float"> 0.3 </parameter>
+  <parameter name="TimeWindowMax" type="float"> 0.64 </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <parameter name="Verbosity" type="string"> WARNING </parameter>
 </processor>
@@ -136,7 +136,7 @@
   <!--Lower bound of the time window [ns]-->
   <parameter name="TimeWindowMin" type="float"> -0.18 </parameter>
   <!--Upper bound of the time window [ns]-->
-  <parameter name="TimeWindowMax" type="float"> 0.3 </parameter>
+  <parameter name="TimeWindowMax" type="float"> 0.64 </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <parameter name="Verbosity" type="string"> WARNING </parameter>
 </processor>
@@ -164,7 +164,7 @@
   <!--Lower bound of the time window [ns]-->
   <parameter name="TimeWindowMin" type="float"> -0.18 </parameter>
   <!--Upper bound of the time window [ns]-->
-  <parameter name="TimeWindowMax" type="float"> 0.3 </parameter>
+  <parameter name="TimeWindowMax" type="float"> 0.64 </parameter>
   <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
   <parameter name="Verbosity" type="string"> WARNING </parameter>
 </processor>

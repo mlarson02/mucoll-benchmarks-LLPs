@@ -34,7 +34,7 @@
 
     <parameter name="TimeWindowMin" type="float"> -0.09 </parameter>
 
-    <parameter name="TimeWindowMax" type="float"> 0.15 </parameter><!-- was 0.15 -->
+    <parameter name="TimeWindowMax" type="float"> 0.32 </parameter><!-- was 0.15 -->
 
     <parameter name="Verbosity" type="string"> WARNING </parameter>
 
@@ -66,7 +66,7 @@
 
     <parameter name="TimeWindowMin" type="float"> -0.09 </parameter>
 
-    <parameter name="TimeWindowMax" type="float"> 0.15 </parameter>
+    <parameter name="TimeWindowMax" type="float"> 0.32 </parameter>
 
     <parameter name="Verbosity" type="string"> WARNING </parameter>
 
@@ -98,7 +98,7 @@
 
     <parameter name="TimeWindowMin" type="float"> -0.18 </parameter>
 
-    <parameter name="TimeWindowMax" type="float"> 0.3 </parameter>
+    <parameter name="TimeWindowMax" type="float"> 0.64 </parameter>
 
     <parameter name="Verbosity" type="string"> WARNING </parameter>
 
@@ -130,7 +130,7 @@
 
     <parameter name="TimeWindowMin" type="float"> -0.18 </parameter>
 
-    <parameter name="TimeWindowMax" type="float"> 0.3 </parameter>
+    <parameter name="TimeWindowMax" type="float"> 0.64 </parameter>
 
     <parameter name="Verbosity" type="string"> WARNING </parameter>
 
@@ -162,7 +162,7 @@
 
     <parameter name="TimeWindowMin" type="float"> -0.18 </parameter>
 
-    <parameter name="TimeWindowMax" type="float"> 0.3 </parameter>
+    <parameter name="TimeWindowMax" type="float"> 0.64 </parameter>
 
     <parameter name="Verbosity" type="string"> WARNING </parameter>
 
@@ -194,7 +194,7 @@
 
     <parameter name="TimeWindowMin" type="float"> -0.18 </parameter>
 
-    <parameter name="TimeWindowMax" type="float"> 0.3 </parameter>
+    <parameter name="TimeWindowMax" type="float"> 0.64 </parameter>
 
     <parameter name="Verbosity" type="string"> WARNING </parameter>
 

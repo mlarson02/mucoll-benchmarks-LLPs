@@ -5,6 +5,8 @@ from DDSim.DD4hepSimulation import DD4hepSimulation
 from g4units import mm, GeV, MeV, m, deg
 SIM = DD4hepSimulation()
 
+SIM.hepmc3.useHepMC3 = True
+
 ## Path to the compact geometry desciption [XML file]
 SIM.compactFile = os.environ.get('MUCOLL_GEO')
 ## Lorentz boost for the crossing angle, in radian!
@@ -209,11 +211,6 @@ SIM.part.saveProcesses = ['Decay']
 SIM.physics.decays = False
 SIM.physics.list = "QGSP_BERT"
 
-# Configure the output action to exclude SimCalorimeterHit
-# Define the output actions
-output = SIM.add(SIM.OutputAction("MyOutput"))
-output.collections = ["TrackerHits"]
-
 ##  location of particle.tbl file containing extra particles and their lifetime information
 ##     
 SIM.physics.pdgfile = os.path.join( os.environ.get("DD4HEP"), "DDG4/examples/particle.tbl" )
@@ -244,3 +241,5 @@ SIM.random.replace_gRandom = True
 SIM.random.seed = None
 SIM.random.type = None
 
+SIM.physics.alternativeDecayStatuses = {22, 23, 51, 52}
+SIM.physics.zeroTimePDGs = {17, 11} # removing 13, 15 from this list
