@@ -13,6 +13,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Generate LCIO::MCParticles with specified parameters')
 parser.add_argument('output', metavar='FILE_OUT.slcio', help='Output LCIO file')
+parser.add_argument('-s', '--seed', metavar='seed', type=int, help='Seed to use for random generator', default=12345)
 parser.add_argument('-c', '--comment', metavar='TEXT',  help='Comment to be added to the run header', type=str)
 parser.add_argument('-e', '--events', metavar='N', type=int, default=1,  help='# of events to generate (default: 1)')
 parser.add_argument('-p', '--particles', metavar='N', type=int, default=1,  help='# of particles/event to generate (default: 1)')
@@ -47,7 +48,7 @@ for pdg in args.pdg:
 
 # Generating sampling distributions for each property (1 value/event)
 sample_size = args.events * args.particles
-rng = np.random.default_rng(12345)
+rng = np.random.default_rng(args.seed)
 samples = {}
 configs = {
 	'dt': args.dt,
