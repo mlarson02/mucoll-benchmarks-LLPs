@@ -15,20 +15,6 @@
     <!-- ========== DD4hep.xml ========== -->
     <processor name="DD4hep"/>
 
-    <!-- ==========  Tracker Digitization  ========== -->
-    <processor name="VXDBarrelDigitiser"/>
-    <processor name="VXDEndcapDigitiser"/>
-    <processor name="InnerPlanarDigiProcessor"/>
-    <processor name="InnerEndcapPlanarDigiProcessor"/>
-    <processor name="OuterPlanarDigiProcessor"/>
-    <processor name="OuterEndcapPlanarDigiProcessor"/>
-
-    <!-- ========== TrackReconstruction.xml ========== -->
-    <!-- <processor name="CKFTracking"/>
-    <processor name="TrackDeduplication"/>
-    <processor name="TrackRefit"/>
-    <processor name="MyTrackTruth"/> -->
-
     <!-- ==========  Tracking  ========== -->
     <processor name="CKFTracking"/>
     <processor name="TrackDeduplication"/>
@@ -43,14 +29,15 @@
     <processor name="Refit" />
     <processor name="MySelectedTrackTruth"/>
     
+    <!-- COMMENTED THESE OUT TO REDUCE RUNTIME -->
     <!-- =============== PFOReconstruction.xml ================= -->
-    <processor name="DDMarlinPandora" />
+    <!--<processor name="DDMarlinPandora" /> -->
 
     <!-- =============== PFOSelection.xml ================= -->
-    <processor name="PFOSelection" />
+    <!--<processor name="PFOSelection" />-->
 
     <!-- =============== VertexJet.xml ================ -->
-    <processor name="FastJetProcessor" />
+    <!--<processor name="FastJetProcessor" />-->
 
     <!-- ========== Output ========== -->
     <processor name="LCIOWriter_all"/>
@@ -113,7 +100,7 @@
   <processor name="LCIOWriter_all" type="LCIOOutputProcessor">
     <parameter name="LCIOOutputFile" type="string"> output_reco.slcio </parameter>
     <parameter name="FullSubsetCollections" type="StringVec">  </parameter>
-    <parameter name="DropCollectionTypes" type="StringVec"> SimCalorimeterHit </parameter>
+    <parameter name="DropCollectionTypes" type="StringVec"> SimCalorimeterHit CalorimeterHit </parameter>
     <parameter name="DropCollectionNames" type="StringVec"> </parameter>
     <parameter name="KeepCollectionNames" type="StringVec"> MCParticle_SiTracks_Refitted SiTracks </parameter>
     <parameter name="LCIOWriteMode" type="string" value="WRITE_NEW"/>
