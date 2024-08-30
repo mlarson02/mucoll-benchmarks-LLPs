@@ -25,6 +25,13 @@ parser.add_argument(
     default="/path/to/tgeo.root",
 )
 
+parser.add_argument(
+    "--outputFile",
+    help="output directory and file",
+    type=str,
+    default="output_reco.slcio",
+)
+
 the_args = parser.parse_known_args()[0]
 
 algList = []
@@ -33,7 +40,7 @@ evtsvc = EventDataSvc()
 
 read = LcioEvent()
 read.OutputLevel = INFO
-read.Files = ["input.slcio"]
+read.Files = ["output_digi.slcio"]
 algList.append(read)
 
 DD4hep = MarlinProcessorWrapper("DD4hep")
@@ -73,10 +80,10 @@ LCIOWriter_all.OutputLevel = INFO
 LCIOWriter_all.ProcessorType = "LCIOOutputProcessor"
 LCIOWriter_all.Parameters = {
                              "DropCollectionNames": [],
-                             "DropCollectionTypes": [],
+                             "DropCollectionTypes": ["SimCalorimeterHit", "CalorimeterHit"],
                              "FullSubsetCollections": [],
-                             "KeepCollectionNames": [],
-                             "LCIOOutputFile": ["output_reco.slcio"],
+                             "KeepCollectionNames": ["MCParticle_SiTracks_Refitted", "SiTracks_Refitted", "SlimmedHitsCollection"],
+                             "LCIOOutputFile": [the_args.outputFile],
                              "LCIOWriteMode": ["WRITE_NEW"]
                              }
 
@@ -101,33 +108,22 @@ CKFTracking.Parameters = {
     "MatFile": [the_args.MatFile],
     "PropagateBackward": ["False"],
     "RunCKF": ["True"],
-    "SeedFinding_CollisionRegion": ["3.5"],
-    "SeedFinding_DeltaRMax": ["60"],
-    "SeedFinding_DeltaRMin": ["2"],
-    "SeedFinding_DeltaRMaxBottom": ["50"],
-    "SeedFinding_DeltaRMaxTop": ["50"],
-    "SeedFinding_DeltaRMinBottom": ["5"],
-    "SeedFinding_DeltaRMinTop": ["2"],
-    "SeedFinding_ImpactMax": ["3"],
+    "SeedFinding_CollisionRegion": ["1"],
+    "SeedFinding_DeltaRMax": ["80"],
+    "SeedFinding_DeltaRMin": ["5"],
     "SeedFinding_MinPt": ["500"],
     "SeedFinding_RMax": ["150"],
     "SeedFinding_ZMax": ["500"],
     "SeedFinding_RadLengthPerSeed": ["0.1"],
-    "SeedFinding_zBottomBinLen": ["1"],
-    "SeedFinding_zTopBinLen": ["1"],
-    "SeedFinding_phiBottomBinLen": ["1"],
-    "SeedFinding_phiTopBinLen": ["1"],
-    "SeedFinding_SigmaScattering": ["3"],
+    "SeedFinding_SigmaScattering": ["50"],
     "SeedingLayers": [
         "13", "2", "13", "6", "13", "10", "13", "14", 
         "14", "2", "14", "6", "14", "10", "14", "14", 
-        "15", "2", "15", "6", "15", "10", "15", "14",
+        "15", "2", "15", "6", "15", "10", "15", "14"
         ],
     "TGeoFile": [the_args.TGeoFile],
     "TrackCollectionName": ["AllTracks"],
-    "TrackerHitCollectionNames": ["VXDBarrelHits", "ITBarrelHits", "OTBarrelHits", "VXDEndcapHits", "ITEndcapHits", "OTEndcapHits"],
-    "CaloFace_Radius": ["1500"],
-    "CaloFace_Z": ["2307"]
+    "TrackerHitCollectionNames": ["VXDBarrelHits", "ITBarrelHits", "OTBarrelHits", "VXDEndcapHits", "ITEndcapHits", "OTEndcapHits"]
 }
 
 TrackDeduplication = MarlinProcessorWrapper("TrackDeduplication")
@@ -135,9 +131,151 @@ TrackDeduplication.OutputLevel = INFO
 TrackDeduplication.ProcessorType = "ACTSDuplicateRemoval"
 TrackDeduplication.Parameters = {
                                  "InputTrackCollectionName": ["AllTracks"],
-                                 "OutputTrackCollectionName": ["SiTracks"]
+                                 "OutputTrackCollectionName": ["FirstTracks"]
                                  }
 
+MergeHits = MarlinProcessorWrapper("MergeHits")
+MergeHits.OutputLevel = INFO
+MergeHits.ProcessorType = "MergeCollections"
+MergeHits.Parameters = {
+                                 "InputCollections": ["VXDBarrelHits", "ITBarrelHits", "OTBarrelHits", "VXDEndcapHits", "ITEndcapHits", "OTEndcapHits"],
+                                 "InputCollectionIDs": ["0", "1", "2", "3", "4", "5"],
+                                 "OutputCollection": ["HitsCollection"]
+                                 }
+
+MyHitSlimmer = MarlinProcessorWrapper("MyHitSlimmer")
+MyHitSlimmer.OutputLevel = INFO
+MyHitSlimmer.ProcessorType = "HitSlimmer"
+MyHitSlimmer.Parameters = {
+                                 "TrackerHitCollectionName": ["HitsCollection"],
+                                 "TrackCollectionName": ["FirstTracks"],
+                                 "SlimmedHitsCollectionName": ["SlimmedHitsCollection"],
+                                 "Verbosity": ["WARNING0"]
+                                 }
+
+
+MyCKFTracking_LLP = MarlinProcessorWrapper("MyCKFTracking_LLP")
+MyCKFTracking_LLP.OutputLevel = INFO
+MyCKFTracking_LLP.ProcessorType = "ACTSSeededCKFTrackingProc"
+MyCKFTracking_LLP.Parameters = {
+    "CKF_Chi2CutOff": ["10"],
+    "CKF_NumMeasurementsCutOff": ["1"],
+    "MatFile": [the_args.MatFile],
+    "PropagateBackward": ["True"],
+    "RunCKF": ["True"],
+    "SeedFinding_CollisionRegion": ["100"],
+    "SeedFinding_DeltaRMax": ["350"],
+    "SeedFinding_DeltaRMin": ["5"],
+    "SeedFinding_ImpactMax": ["150"],
+    "SeedFinding_MinPt": ["1000"],
+    "SeedFinding_RMax": ["1500"],
+    "SeedFinding_ZMax": ["2200"],
+    "SeedFinding_RadLengthPerSeed": ["0.1"],
+    "SeedFinding_SigmaScattering": ["50"],
+    "SeedingLayers": [
+        "23", "2", "23", "4", "23", "6", "23", "8", 
+        "20", "2",
+        "24", "2", "24", "4", "24", "6",
+        "25", "2", "25", "4", "25", "6", "25", "8"
+        ],
+    "TGeoFile": [the_args.TGeoFile],
+    "SeedCollectionName": ["SeedTracks_LLP"],
+    "TrackCollectionName": ["AllTracks_LLP"],
+    "TrackerHitCollectionNames": ["SlimmedHitsCollection"]
+}
+
+MyTrackDeduper_LLP = MarlinProcessorWrapper("MyTrackDeduper_LLP")
+MyTrackDeduper_LLP.OutputLevel = INFO
+MyTrackDeduper_LLP.ProcessorType = "ACTSDuplicateRemoval"
+MyTrackDeduper_LLP.Parameters = {
+                                 "InputTrackCollectionName": ["AllTracks_LLP"],
+                                 "OutputTrackCollectionName": ["Tracks_LLP"]
+                                 }
+
+
+FirstTrackTruth = MarlinProcessorWrapper("FirstTrackTruth")
+FirstTrackTruth.OutputLevel = INFO
+FirstTrackTruth.ProcessorType = "TrackTruthProc"
+FirstTrackTruth.Parameters = {
+                                 "TrackCollection": ["FirstTracks"],
+                                 "MCParticleCollection": ["MCParticle"],
+                                 "TrackerHit2SimTrackerHitRelationName": ["VXDBarrelHitsRelations", "VXDEndcapHitsRelations", "ITBarrelHitsRelations", "ITEndcapHitsRelations", "OTBarrelHitsRelations", "OTEndcapHitsRelations"],
+                                 "Particle2TrackRelationName": ["MCParticle_FirstTracks"]
+                                 }
+
+SecondTrackTruth = MarlinProcessorWrapper("SecondTrackTruth")
+SecondTrackTruth.OutputLevel = INFO
+SecondTrackTruth.ProcessorType = "TrackTruthProc"
+SecondTrackTruth.Parameters = {
+                                 "TrackCollection": ["Tracks_LLP"],
+                                 "MCParticleCollection": ["MCParticle"],
+                                 "TrackerHit2SimTrackerHitRelationName": ["VXDBarrelHitsRelations", "VXDEndcapHitsRelations", "ITBarrelHitsRelations", "ITEndcapHitsRelations", "OTBarrelHitsRelations", "OTEndcapHitsRelations"],
+                                 "Particle2TrackRelationName": ["MCParticle_Tracks_LLP"]
+                                 }
+
+FirstRefit = MarlinProcessorWrapper("FirstRefit")
+FirstRefit.OutputLevel = INFO
+FirstRefit.ProcessorType = "RefitFinal"
+FirstRefit.Parameters = {
+                                 "EnergyLossOn": ["true"],
+                                 #"DoCutsOnRedChi2Nhits": ["true"],
+                                 #"ReducedChi2Cut": ["3."],
+                                 #"NHitsCuts": ["1,2", "7", ## FOR PROMPT
+                                 #              "3,4", "0",
+                                 #              "5,6", "0"],
+                                 "InputRelationCollectionName": ["MCParticle_FirstTracks"],
+                                 "InputTrackCollectionName": ["FirstTracks"],
+                                 "Max_Chi2_Incr": ["1.79769e+30"],
+                                 "MultipleScatteringOn": ["true"],
+                                 "OutputRelationCollectionName": ["FirstTracks_Refitted_Relation"],
+                                 "OutputTrackCollectionName": ["FirstTracks_Refitted"],
+                                 "ReferencePoint": ["-1"],
+                                 "SmoothOn": ["true"],
+                                 "Verbosity": ["WARNING0"],
+                                 "extrapolateForward": ["true"],
+                                 "MinClustersOnTrackAfterFit": ["0"]
+                                 }
+
+SecondRefit = MarlinProcessorWrapper("SecondRefit")
+SecondRefit.OutputLevel = INFO
+SecondRefit.ProcessorType = "RefitFinal"
+SecondRefit.Parameters = {
+                                 "EnergyLossOn": ["true"],
+                                 #"DoCutsOnRedChi2Nhits": ["true"],
+                                 #"ReducedChi2Cut": ["3."],
+                                 #"NHitsCuts": ["1,2", "0", ## FOR DISPLACED
+                                 #              "3,4", "1",
+                                 #              "5,6", "3"],
+                                 "InputRelationCollectionName": ["MCParticle_Tracks_LLP"],
+                                 "InputTrackCollectionName": ["Tracks_LLP"],
+                                 "Max_Chi2_Incr": ["1.79769e+30"],
+                                 "MultipleScatteringOn": ["true"],
+                                 "OutputRelationCollectionName": ["Tracks_LLP_Refitted_Relation"],
+                                 "OutputTrackCollectionName": ["Tracks_LLP_Refitted"],
+                                 "ReferencePoint": ["-1"],
+                                 "SmoothOn": ["false"],
+                                 "Verbosity": ["WARNING0"],
+                                 "extrapolateForward": ["false"],
+                                 "MinClustersOnTrackAfterFit": ["0"]
+                                 }
+
+MergeTracks = MarlinProcessorWrapper("MergeTracks")
+MergeTracks.OutputLevel = INFO
+MergeTracks.ProcessorType = "MergeCollections"
+MergeTracks.Parameters = {
+                                 "InputCollections": ["FirstTracks_Refitted", "Tracks_LLP_Refitted"],
+                                 "OutputCollection": ["SiTracks_Refitted"]
+                                 }
+
+MergedTrackTruth = MarlinProcessorWrapper("MergedTrackTruth")
+MergedTrackTruth.OutputLevel = INFO
+MergedTrackTruth.ProcessorType = "TrackTruthProc"
+MergedTrackTruth.Parameters = {
+                                 "TrackCollection": ["SiTracks_Refitted"],
+                                 "MCParticleCollection": ["MCParticle"],
+                                 "TrackerHit2SimTrackerHitRelationName": ["VXDBarrelHitsRelations", "VXDEndcapHitsRelations", "ITBarrelHitsRelations", "ITEndcapHitsRelations", "OTBarrelHitsRelations", "OTEndcapHitsRelations"],
+                                 "Particle2TrackRelationName": ["MCParticle_SiTracks_Refitted"]
+                                 }
 
 DDMarlinPandora = MarlinProcessorWrapper("DDMarlinPandora")
 DDMarlinPandora.OutputLevel = INFO
@@ -222,7 +360,7 @@ DDMarlinPandora.Parameters = {
                               "StartVertexAlgorithmName": ["PandoraPFANew"],
                               "StartVertexCollectionName": ["PandoraStartVertices"],
                               "StripSplittingOn": ["0"],
-                              "TrackCollections": ["SiTracks"],
+                              "TrackCollections": ["SiTracks_Refitted"],
                               "TrackCreatorName": ["DDTrackCreatorCLIC"],
                               "TrackStateTolerance": ["0"],
                               "TrackSystemName": ["DDKalTest"],
@@ -307,16 +445,26 @@ algList.append(Config)
 algList.append(DD4hep)
 algList.append(CKFTracking)
 algList.append(TrackDeduplication)
-algList.append(DDMarlinPandora)
-algList.append(PFOSelection)
-algList.append(FastJetProcessor)
+algList.append(MergeHits)
+algList.append(MyHitSlimmer)
+algList.append(MyCKFTracking_LLP)
+algList.append(MyTrackDeduper_LLP)
+algList.append(FirstTrackTruth)
+algList.append(SecondTrackTruth)
+algList.append(FirstRefit)
+algList.append(SecondRefit)
+algList.append(MergeTracks)
+algList.append(MergedTrackTruth)
+#algList.append(DDMarlinPandora)
+#algList.append(PFOSelection)
+#algList.append(FastJetProcessor)
 algList.append(LCIOWriter_all)
-algList.append(LCIOWriter_light)
+#algList.append(LCIOWriter_light)
 
 from Configurables import ApplicationMgr
 ApplicationMgr( TopAlg = algList,
                 EvtSel = 'NONE',
-                EvtMax   = 10,
+                EvtMax   = 1000,
                 ExtSvc = [evtsvc],
                 OutputLevel=INFO
               )

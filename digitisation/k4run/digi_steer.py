@@ -60,6 +60,13 @@ parser.add_argument(
     default=False,
 )
 
+parser.add_argument(
+    "--outputFile",
+    help="output directory and file",
+    type=str,
+    default="output_digi.slcio",
+)
+
 the_args = parser.parse_known_args()[0]
 
 algList = []
@@ -99,10 +106,10 @@ LCIOWriter_all.OutputLevel = INFO
 LCIOWriter_all.ProcessorType = "LCIOOutputProcessor"
 LCIOWriter_all.Parameters = {
                              "DropCollectionNames": [],
-                             "DropCollectionTypes": [],
+                             "DropCollectionTypes": ["SimCalorimeterHit", "CalorimeterHit"],
                              "FullSubsetCollections": [],
                              "KeepCollectionNames": [],
-                             "LCIOOutputFile": ["output_digi.slcio"],
+                             "LCIOOutputFile": [the_args.outputFile],
                              "LCIOWriteMode": ["WRITE_NEW"]
                              }
 
@@ -130,7 +137,7 @@ VXDBarrelDigitiser.Parameters = {
                                  "SimTrackHitCollectionName": ["VertexBarrelCollection"],
                                  "SimTrkHitRelCollection": ["VXDBarrelHitsRelations"],
                                  "SubDetectorName": ["Vertex"],
-                                 "TimeWindowMax": ["0.15"],
+                                 "TimeWindowMax": ["0.32"],
                                  "TimeWindowMin": ["-0.09"],
                                  "TrackerHitCollectionName": ["VXDBarrelHits"],
                                  "UseTimeWindow": ["true"]
@@ -148,7 +155,7 @@ VXDEndcapDigitiser.Parameters = {
                                  "SimTrackHitCollectionName": ["VertexEndcapCollection"],
                                  "SimTrkHitRelCollection": ["VXDEndcapHitsRelations"],
                                  "SubDetectorName": ["Vertex"],
-                                 "TimeWindowMax": ["0.15"],
+                                 "TimeWindowMax": ["0.32"],
                                  "TimeWindowMin": ["-0.09"],
                                  "TrackerHitCollectionName": ["VXDEndcapHits"],
                                  "UseTimeWindow": ["true"]
@@ -166,7 +173,7 @@ ITBarrelDigitiser.Parameters = {
                                 "SimTrackHitCollectionName": ["InnerTrackerBarrelCollection"],
                                 "SimTrkHitRelCollection": ["ITBarrelHitsRelations"],
                                 "SubDetectorName": ["InnerTrackers"],
-                                "TimeWindowMax": ["0.3"],
+                                "TimeWindowMax": ["0.64"],
                                 "TimeWindowMin": ["-0.18"],
                                 "TrackerHitCollectionName": ["ITBarrelHits"],
                                 "UseTimeWindow": ["true"]
@@ -184,7 +191,7 @@ ITEndcapDigitiser.Parameters = {
                                 "SimTrackHitCollectionName": ["InnerTrackerEndcapCollection"],
                                 "SimTrkHitRelCollection": ["ITEndcapHitsRelations"],
                                 "SubDetectorName": ["InnerTrackers"],
-                                "TimeWindowMax": ["0.3"],
+                                "TimeWindowMax": ["0.64"],
                                 "TimeWindowMin": ["-0.18"],
                                 "TrackerHitCollectionName": ["ITEndcapHits"],
                                 "UseTimeWindow": ["true"]
@@ -202,7 +209,7 @@ OTBarrelDigitiser.Parameters = {
                                 "SimTrackHitCollectionName": ["OuterTrackerBarrelCollection"],
                                 "SimTrkHitRelCollection": ["OTBarrelHitsRelations"],
                                 "SubDetectorName": ["OuterTrackers"],
-                                "TimeWindowMax": ["0.3"],
+                                "TimeWindowMax": ["0.64"],
                                 "TimeWindowMin": ["-0.18"],
                                 "TrackerHitCollectionName": ["OTBarrelHits"],
                                 "UseTimeWindow": ["true"]
@@ -220,7 +227,7 @@ OTEndcapDigitiser.Parameters = {
                                 "SimTrackHitCollectionName": ["OuterTrackerEndcapCollection"],
                                 "SimTrkHitRelCollection": ["OTEndcapHitsRelations"],
                                 "SubDetectorName": ["OuterTrackers"],
-                                "TimeWindowMax": ["0.3"],
+                                "TimeWindowMax": ["0.64"],
                                 "TimeWindowMin": ["-0.18"],
                                 "TrackerHitCollectionName": ["OTEndcapHits"],
                                 "UseTimeWindow": ["true"]
@@ -566,7 +573,7 @@ algList.append(LCIOWriter_light)
 from Configurables import ApplicationMgr
 ApplicationMgr( TopAlg = algList,
                 EvtSel = 'NONE',
-                EvtMax   = 10,
+                EvtMax   = 1000,
                 ExtSvc = [evtsvc],
                 OutputLevel=INFO
               )
