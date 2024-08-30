@@ -105,7 +105,7 @@ LCIOWriter_all = MarlinProcessorWrapper("LCIOWriter_all")
 LCIOWriter_all.OutputLevel = INFO
 LCIOWriter_all.ProcessorType = "LCIOOutputProcessor"
 LCIOWriter_all.Parameters = {
-                             "DropCollectionNames": [],
+                             "DropCollectionNames": ["EcalBarrelRelationsSimDigi", "EcalBarrelRelationsSimRec", "EcalEndcapRelationsSimDigi", "EcalEndcapRelationsSimRec", "HCalRingRelationsSimDigi", "HCalRingRelationsSimRec", "HcalBarrelRelationsSimDigi", "HcalBarrelRelationsSimRec", "HcalEndcapRelationsSimDigi", "HcalEndcapRelationsSimRec", "MuonHitsRelations"],
                              "DropCollectionTypes": ["SimCalorimeterHit", "CalorimeterHit"],
                              "FullSubsetCollections": [],
                              "KeepCollectionNames": [],
@@ -554,21 +554,21 @@ algList.append(OTEndcapDigitiser)
 if the_args.doFilterDL:
     algList.append(FilterDL_VXDB)
     algList.append(FilterDL_VXDE)
-algList.append(ECalBarrelDigi)
-algList.append(ECalBarrelReco)
-algList.append(ECalPlugDigi)
-algList.append(ECalPlugReco)
-algList.append(ECalEndcapDigi)
-algList.append(ECalEndcapReco)
-algList.append(HCalBarrelDigi)
-algList.append(HCalBarrelReco)
-algList.append(HCalEndcapDigi)
-algList.append(HCalEndcapReco)
-algList.append(HCalRingDigi)
-algList.append(HCalRingReco)
-algList.append(MuonDigitiser)
+#algList.append(ECalBarrelDigi)
+#algList.append(ECalBarrelReco)
+#algList.append(ECalPlugDigi)
+#algList.append(ECalPlugReco)
+#algList.append(ECalEndcapDigi)
+#algList.append(ECalEndcapReco)
+#algList.append(HCalBarrelDigi)
+#algList.append(HCalBarrelReco)
+#algList.append(HCalEndcapDigi)
+#algList.append(HCalEndcapReco)
+#algList.append(HCalRingDigi)
+#algList.append(HCalRingReco)
+#algList.append(MuonDigitiser)
 algList.append(LCIOWriter_all)
-algList.append(LCIOWriter_light)
+#algList.append(LCIOWriter_light)
 
 from Configurables import ApplicationMgr
 ApplicationMgr( TopAlg = algList,

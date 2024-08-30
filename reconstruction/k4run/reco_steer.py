@@ -79,7 +79,7 @@ LCIOWriter_all = MarlinProcessorWrapper("LCIOWriter_all")
 LCIOWriter_all.OutputLevel = INFO
 LCIOWriter_all.ProcessorType = "LCIOOutputProcessor"
 LCIOWriter_all.Parameters = {
-                             "DropCollectionNames": [],
+                             "DropCollectionNames": ["EcalBarrelRelationsSimDigi", "EcalBarrelRelationsSimRec", "EcalEndcapRelationsSimDigi", "EcalEndcapRelationsSimRec", "HCalRingRelationsSimDigi", "HCalRingRelationsSimRec", "HcalBarrelRelationsSimDigi", "HcalBarrelRelationsSimRec", "HcalEndcapRelationsSimDigi", "HcalEndcapRelationsSimRec", "MuonHitsRelations"],
                              "DropCollectionTypes": ["SimCalorimeterHit", "CalorimeterHit"],
                              "FullSubsetCollections": [],
                              "KeepCollectionNames": ["MCParticle_SiTracks_Refitted", "SiTracks_Refitted", "SlimmedHitsCollection"],
