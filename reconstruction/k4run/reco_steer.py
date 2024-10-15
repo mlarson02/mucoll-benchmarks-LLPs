@@ -113,13 +113,13 @@ CKFTracking.Parameters = {
     "SeedFinding_DeltaRMin": ["5"],
     "SeedFinding_MinPt": ["500"],
     "SeedFinding_RMax": ["150"],
-    "SeedFinding_ZMax": ["500"],
+    "SeedFinding_ZMax": ["600"],
     "SeedFinding_RadLengthPerSeed": ["0.1"],
     "SeedFinding_SigmaScattering": ["50"],
     "SeedingLayers": [
         "13", "2", "13", "6", "13", "10", "13", "14", 
         "14", "2", "14", "6", "14", "10", "14", "14", 
-        "15", "2", "15", "6", "15", "10", "15", "14"
+        "15", "2", "15", "6", "15", "10", "15", "14",
         ],
     "TGeoFile": [the_args.TGeoFile],
     "TrackCollectionName": ["AllTracks"],
@@ -161,7 +161,7 @@ MyCKFTracking_LLP.Parameters = {
     "CKF_Chi2CutOff": ["10"],
     "CKF_NumMeasurementsCutOff": ["1"],
     "MatFile": [the_args.MatFile],
-    "PropagateBackward": ["True"],
+    "PropagateBackward": ["False"],
     "RunCKF": ["True"],
     "SeedFinding_CollisionRegion": ["100"],
     "SeedFinding_DeltaRMax": ["350"],
@@ -176,7 +176,7 @@ MyCKFTracking_LLP.Parameters = {
         "23", "2", "23", "4", "23", "6", "23", "8", 
         "20", "2",
         "24", "2", "24", "4", "24", "6",
-        "25", "2", "25", "4", "25", "6", "25", "8"
+        "25", "2", "25", "4", "25", "6", "25", "8",
         ],
     "TGeoFile": [the_args.TGeoFile],
     "SeedCollectionName": ["SeedTracks_LLP"],
@@ -218,10 +218,10 @@ FirstRefit.OutputLevel = INFO
 FirstRefit.ProcessorType = "RefitFinal"
 FirstRefit.Parameters = {
                                  "EnergyLossOn": ["true"],
-                                 #"DoCutsOnRedChi2Nhits": ["true"],
-                                 #"ReducedChi2Cut": ["3."],
+                                 "DoCutsOnRedChi2Nhits": ["false"],
+                                 #"ReducedChi2Cut": ["5."],
                                  #"NHitsCuts": ["1,2", "7", ## FOR PROMPT
-                                 #              "3,4", "0",
+                                  #             "3,4", "0",
                                  #              "5,6", "0"],
                                  "InputRelationCollectionName": ["MCParticle_FirstTracks"],
                                  "InputTrackCollectionName": ["FirstTracks"],
@@ -241,7 +241,7 @@ SecondRefit.OutputLevel = INFO
 SecondRefit.ProcessorType = "RefitFinal"
 SecondRefit.Parameters = {
                                  "EnergyLossOn": ["true"],
-                                 #"DoCutsOnRedChi2Nhits": ["true"],
+                                 "DoCutsOnRedChi2Nhits": ["false"],
                                  #"ReducedChi2Cut": ["3."],
                                  #"NHitsCuts": ["1,2", "0", ## FOR DISPLACED
                                  #              "3,4", "1",
@@ -253,9 +253,9 @@ SecondRefit.Parameters = {
                                  "OutputRelationCollectionName": ["Tracks_LLP_Refitted_Relation"],
                                  "OutputTrackCollectionName": ["Tracks_LLP_Refitted"],
                                  "ReferencePoint": ["-1"],
-                                 "SmoothOn": ["false"],
+                                 "SmoothOn": ["true"],
                                  "Verbosity": ["WARNING0"],
-                                 "extrapolateForward": ["false"],
+                                 "extrapolateForward": ["true"],
                                  "MinClustersOnTrackAfterFit": ["0"]
                                  }
 
