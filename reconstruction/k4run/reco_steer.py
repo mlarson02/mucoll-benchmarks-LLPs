@@ -174,7 +174,7 @@ MyCKFTracking_LLP.Parameters = {
     "SeedFinding_SigmaScattering": ["50"],
     "SeedingLayers": [
         "23", "2", "23", "4", "23", "6", "23", "8", 
-        "20", "2",
+        "17", "2"#, #"17", "4", "20", "2", 
         "24", "2", "24", "4", "24", "6",
         "25", "2", "25", "4", "25", "6", "25", "8",
         ],
@@ -218,10 +218,10 @@ FirstRefit.OutputLevel = INFO
 FirstRefit.ProcessorType = "RefitFinal"
 FirstRefit.Parameters = {
                                  "EnergyLossOn": ["true"],
-                                 "DoCutsOnRedChi2Nhits": ["false"],
+                                 #"DoCutsOnRedChi2Nhits": ["true"],
                                  #"ReducedChi2Cut": ["5."],
                                  #"NHitsCuts": ["1,2", "7", ## FOR PROMPT
-                                  #             "3,4", "0",
+                                 #              "3,4", "0",
                                  #              "5,6", "0"],
                                  "InputRelationCollectionName": ["MCParticle_FirstTracks"],
                                  "InputTrackCollectionName": ["FirstTracks"],
@@ -241,11 +241,11 @@ SecondRefit.OutputLevel = INFO
 SecondRefit.ProcessorType = "RefitFinal"
 SecondRefit.Parameters = {
                                  "EnergyLossOn": ["true"],
-                                 "DoCutsOnRedChi2Nhits": ["false"],
+                                 #"DoCutsOnRedChi2Nhits": ["true"],
                                  #"ReducedChi2Cut": ["3."],
                                  #"NHitsCuts": ["1,2", "0", ## FOR DISPLACED
                                  #              "3,4", "1",
-                                 #              "5,6", "3"],
+                                 #              "5,6", "1"],
                                  "InputRelationCollectionName": ["MCParticle_Tracks_LLP"],
                                  "InputTrackCollectionName": ["Tracks_LLP"],
                                  "Max_Chi2_Incr": ["1.79769e+30"],
